@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre — Entrelinhas</title>
+  <meta name="description" content="Conheça a Entrelinhas: uma marca que mistura moda, humor e literatura para leitores que gostam de mostrar a personalidade através dos livros.">
+  <meta name="theme-color" content="#171717">
+  <meta property="og:title" content="Sobre — Entrelinhas">
+  <meta property="og:description" content="Moda, humor e literatura na mesma página.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/produtos.js" defer></script>
+  <script src="js/carrinho.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body data-pagina="sobre" class="bg-papel font-sans text-tinta antialiased">
+  <div id="cabecalho"></div>
+
+  <main>
+    <!-- Prefácio -->
+    <section class="mx-auto grid max-w-site items-center gap-12 px-4 py-16 sm:px-6 md:py-24 lg:grid-cols-2">
+      <div>
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Prefácio</p>
+        <h1 class="mt-4 font-serif text-5xl leading-[1.05] sm:text-6xl">Nascemos entre<br>uma página <em class="text-vinho">e outra.</em></h1>
+        <div class="mt-8 max-w-lg space-y-4 text-lg leading-relaxed text-grafite">
+          <p>A Entrelinhas começou com uma pergunta simples: por que as frases que mais marcam a gente ficam presas dentro dos livros?</p>
+          <p>Somos uma marca de roupas e acessórios para leitores. Pegamos as frases que você sublinhou, as piadas que só quem leu entende e os clássicos que caíram no vestibular, e transformamos tudo em estampa.</p>
+          <p>Para vestir, dar de presente e, principalmente, puxar conversa com outro leitor na fila do café.</p>
+        </div>
+      </div>
+      <div class="pauta-clara relative bg-papel-escuro p-6 sm:p-10">
+        <div class="mockup mx-auto aspect-[20/23] max-w-sm" data-mockup="so-mais-um-capitulo"></div>
+        <p class="absolute bottom-6 right-6 max-w-[12rem] text-right font-serif text-sm italic text-grafite">“Só mais um capítulo”, a primeira estampa que fizemos.</p>
+      </div>
+    </section>
+
+    <!-- Proposta de valor -->
+    <section class="border-y border-linha bg-papel-escuro/50">
+      <div class="mx-auto max-w-site px-4 py-20 sm:px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Sumário</p>
+        <h2 class="mt-2 font-serif text-4xl sm:text-5xl">No que a gente acredita</h2>
+
+        <ol class="mt-12 grid gap-px bg-linha sm:grid-cols-2 lg:grid-cols-4">
+          <li class="bg-papel p-8">
+            <span class="font-serif text-5xl text-vinho">I.</span>
+            <h3 class="mt-4 font-serif text-2xl">Moda, humor e literatura</h3>
+            <p class="mt-3 text-sm leading-relaxed text-grafite">Cada peça é uma piada interna entre leitores. Quem sabe, sabe, e quem não sabe fica curioso para ler.</p>
+          </li>
+          <li class="bg-papel p-8">
+            <span class="font-serif text-5xl text-vinho">II.</span>
+            <h3 class="mt-4 font-serif text-2xl">Literatura brasileira em destaque</h3>
+            <p class="mt-3 text-sm leading-relaxed text-grafite">Machado, Mário, Drummond, Clarice. A nossa literatura merece sair da estante e ganhar as ruas.</p>
+          </li>
+          <li class="bg-papel p-8">
+            <span class="font-serif text-5xl text-vinho">III.</span>
+            <h3 class="mt-4 font-serif text-2xl">Coleções temáticas</h3>
+            <p class="mt-3 text-sm leading-relaxed text-grafite">Lançamos por capítulos: cada coleção conta uma história, de clássicos brasileiros a metalinguagem.</p>
+          </li>
+          <li class="bg-papel p-8">
+            <span class="font-serif text-5xl text-vinho">IV.</span>
+            <h3 class="mt-4 font-serif text-2xl">Feito para quem lê</h3>
+            <p class="mt-3 text-sm leading-relaxed text-grafite">Da embalagem ao marca-páginas de brinde, toda a experiência de compra foi pensada para leitores.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Para quem -->
+    <section class="mx-auto grid max-w-site gap-12 px-4 py-20 sm:px-6 lg:grid-cols-12">
+      <div class="lg:col-span-5">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Personagens</p>
+        <h2 class="mt-2 font-serif text-4xl sm:text-5xl">Para quem escrevemos</h2>
+        <p class="mt-4 max-w-md text-grafite">Se você se reconheceu em pelo menos um desses personagens, bem-vindo à história.</p>
+      </div>
+      <ul class="divide-y divide-linha border-y border-linha lg:col-span-7">
+        <li class="flex items-baseline gap-6 py-5"><span class="w-8 shrink-0 font-serif text-vinho">01</span><span class="font-serif text-xl">Jovens e adultos que vivem com um livro na bolsa</span></li>
+        <li class="flex items-baseline gap-6 py-5"><span class="w-8 shrink-0 font-serif text-vinho">02</span><span class="font-serif text-xl">Quem procura um presente criativo para aquele amigo leitor</span></li>
+        <li class="flex items-baseline gap-6 py-5"><span class="w-8 shrink-0 font-serif text-vinho">03</span><span class="font-serif text-xl">Fãs de clássicos, nacionais e internacionais</span></li>
+        <li class="flex items-baseline gap-6 py-5"><span class="w-8 shrink-0 font-serif text-vinho">04</span><span class="font-serif text-xl">Quem curte moda alternativa, geek e com personalidade</span></li>
+        <li class="flex items-baseline gap-6 py-5"><span class="w-8 shrink-0 font-serif text-vinho">05</span><span class="font-serif text-xl">Universitários e estudantes (sim, inclusive os de Letras)</span></li>
+      </ul>
+    </section>
+
+    <!-- Comunidade / relacionamento -->
+    <section class="bg-tinta text-papel">
+      <div class="mx-auto max-w-site px-4 py-20 sm:px-6">
+        <p class="text-xs font-semibold uppercase tracking-[0.3em] text-papel/60">Epílogo aberto</p>
+        <h2 class="mt-2 max-w-2xl font-serif text-4xl leading-tight sm:text-5xl">Uma marca escrita a várias mãos.</h2>
+
+        <div class="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div>
+            <h3 class="font-serif text-2xl">Clube Entrelinhas</h3>
+            <p class="mt-3 text-sm leading-relaxed text-papel/70">Nosso programa de fidelidade: a cada pedido você ganha um carimbo. Com cinco, ganha 20% de desconto na próxima compra.</p>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl">Você escolhe</h3>
+            <p class="mt-3 text-sm leading-relaxed text-papel/70">As próximas estampas são decididas em enquetes com a comunidade, <a href="index.html#enquete" class="underline hover:text-papel">como esta aqui</a>.</p>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl">Clubes de leitura</h3>
+            <p class="mt-3 text-sm leading-relaxed text-papel/70">Fazemos parcerias com clubes de leitura, autores independentes e criadores de conteúdo literário.</p>
+          </div>
+          <div>
+            <h3 class="font-serif text-2xl">#VistaSeDeHistórias</h3>
+            <p class="mt-3 text-sm leading-relaxed text-papel/70">Compartilhe fotos com suas peças. Os melhores cliques entram no nosso perfil e ganham mimos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
+      <p class="font-serif text-4xl italic leading-tight sm:text-5xl">Toda boa história merece ser vestida.</p>
+      <div class="mt-10 flex flex-wrap justify-center gap-3">
+        <a href="produtos.html" class="bg-tinta px-8 py-4 text-sm font-semibold uppercase tracking-widest text-papel transition hover:bg-vinho">Ver a estante</a>
+        <a href="contato.html" class="border border-tinta px-8 py-4 text-sm font-semibold uppercase tracking-widest transition hover:bg-tinta hover:text-papel">Fale com a gente</a>
+      </div>
+    </section>
+  </main>
+
+  <div id="rodape"></div>
+</body>
+</html>

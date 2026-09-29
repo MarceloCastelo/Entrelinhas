@@ -1,0 +1,126 @@
+/* ==========================================================================
+   Entrelinhas — estilos complementares ao Tailwind
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: #8f1d2c;
+  color: #f5f2ea;
+}
+
+:focus-visible {
+  outline: 2px solid #8f1d2c;
+  outline-offset: 3px;
+}
+
+/* Pauta de caderno: as "entrelinhas" da marca */
+.pauta {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 47px,
+    rgba(245, 242, 234, 0.07) 47px,
+    rgba(245, 242, 234, 0.07) 48px
+  );
+}
+
+.pauta-clara {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 39px,
+    rgba(23, 23, 23, 0.06) 39px,
+    rgba(23, 23, 23, 0.06) 40px
+  );
+}
+
+/* Faixa de texto corrido (marquee) */
+.marquee {
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.marquee__trilho {
+  display: inline-flex;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee:hover .marquee__trilho {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Texto vertical decorativo (hero) */
+.texto-vertical {
+  writing-mode: vertical-rl;
+}
+
+/* Gavetas (menu mobile e carrinho) */
+.gaveta {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gaveta-esquerda[aria-hidden='true'] { transform: translateX(-100%); }
+.gaveta-direita[aria-hidden='true']  { transform: translateX(100%); }
+.gaveta[aria-hidden='false']         { transform: translateX(0); }
+
+.sobreposicao {
+  transition: opacity 0.3s ease;
+}
+
+/* Mockups SVG */
+.mockup svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.mockup-zoom svg {
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .mockup-zoom svg {
+  transform: scale(1.05);
+}
+
+/* Barra de rolagem horizontal discreta (chips de filtro) */
+.sem-scrollbar {
+  scrollbar-width: none;
+}
+.sem-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* <details> sem o marcador padrão */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .seta-details {
+  transform: rotate(45deg);
+}
+
+/* Aviso rápido (toast) */
+.aviso {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

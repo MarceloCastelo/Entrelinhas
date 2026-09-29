@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contato — Entrelinhas</title>
+  <meta name="description" content="Fale com a Entrelinhas pelo WhatsApp, Instagram ou e-mail. Dúvidas sobre pedidos, trocas e parcerias.">
+  <meta name="theme-color" content="#171717">
+  <meta property="og:title" content="Contato — Entrelinhas">
+  <meta property="og:description" content="Fale com a Entrelinhas: pedidos, trocas e parcerias.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/produtos.js" defer></script>
+  <script src="js/carrinho.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body data-pagina="contato" class="bg-papel font-sans text-tinta antialiased">
+  <div id="cabecalho"></div>
+
+  <main class="mx-auto max-w-site px-4 sm:px-6">
+    <header class="py-16">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Correspondência</p>
+      <h1 class="mt-3 font-serif text-5xl sm:text-6xl">Escreva pra gente.</h1>
+      <p class="mt-4 max-w-xl text-lg text-grafite">Dúvidas sobre pedidos, trocas, parcerias ou sugestões de estampa. A gente responde (e sem enrolação de prólogo).</p>
+    </header>
+
+    <div class="grid gap-12 lg:grid-cols-12">
+      <!-- Canais -->
+      <aside class="space-y-8 lg:col-span-4">
+        <div class="border-t border-tinta pt-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-grafite">WhatsApp</p>
+          <a data-whatsapp-link href="#" target="_blank" rel="noopener" class="mt-1 block font-serif text-2xl hover:text-vinho" data-whatsapp-texto></a>
+          <p class="mt-1 text-sm text-grafite">Seg. a sex., das 9h às 18h.</p>
+        </div>
+        <div class="border-t border-tinta pt-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-grafite">E-mail</p>
+          <p class="mt-1 break-all font-serif text-2xl" data-email-texto></p>
+        </div>
+        <div class="border-t border-tinta pt-4">
+          <p class="text-xs font-semibold uppercase tracking-[0.2em] text-grafite">Redes</p>
+          <ul class="mt-1 space-y-1 font-serif text-2xl">
+            <li><a href="https://instagram.com/entrelinhas" target="_blank" rel="noopener" class="hover:text-vinho">Instagram</a></li>
+            <li><a href="https://tiktok.com/@entrelinhas" target="_blank" rel="noopener" class="hover:text-vinho">TikTok</a></li>
+          </ul>
+        </div>
+      </aside>
+
+      <!-- Formulário -->
+      <section class="bg-papel-escuro p-6 sm:p-10 lg:col-span-8">
+        <h2 class="font-serif text-3xl">Mande uma mensagem</h2>
+        <p class="mt-2 text-sm text-grafite">Ao enviar, abrimos o WhatsApp com a sua mensagem já escrita.</p>
+
+        <form id="form-contato" class="mt-8 grid gap-5 sm:grid-cols-2">
+          <label class="block">
+            <span class="text-xs font-semibold uppercase tracking-[0.2em]">Nome</span>
+            <input name="nome" type="text" required autocomplete="name" class="mt-2 w-full border border-linha bg-papel px-4 py-3 focus:border-tinta focus:outline-none">
+          </label>
+          <label class="block">
+            <span class="text-xs font-semibold uppercase tracking-[0.2em]">Assunto</span>
+            <select name="assunto" required class="mt-2 w-full border border-linha bg-papel px-4 py-3 focus:border-tinta focus:outline-none">
+              <option>Dúvida sobre pedido</option>
+              <option>Troca ou devolução</option>
+              <option>Sugestão de estampa</option>
+              <option>Parcerias (clubes de leitura, autores, criadores)</option>
+              <option>Outro assunto</option>
+            </select>
+          </label>
+          <label class="block sm:col-span-2">
+            <span class="text-xs font-semibold uppercase tracking-[0.2em]">Mensagem</span>
+            <textarea name="mensagem" rows="6" required minlength="5" class="mt-2 w-full resize-y border border-linha bg-papel px-4 py-3 focus:border-tinta focus:outline-none"></textarea>
+          </label>
+          <div class="sm:col-span-2">
+            <button type="submit" class="w-full bg-tinta px-8 py-4 text-sm font-semibold uppercase tracking-widest text-papel transition hover:bg-vinho sm:w-auto">Enviar pelo WhatsApp</button>
+            <p id="contato-enviado" class="mt-4 text-sm text-vinho" hidden>Pronto! Se o WhatsApp não abriu, verifique se o navegador bloqueou a nova aba.</p>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- Dúvidas frequentes -->
+    <section id="duvidas" class="scroll-mt-24 pt-24">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Notas de rodapé</p>
+      <h2 class="mt-2 font-serif text-4xl sm:text-5xl">Dúvidas frequentes</h2>
+
+      <div class="mt-8 max-w-3xl border-t border-linha">
+        <details class="border-b border-linha py-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 font-serif text-xl">Como faço um pedido?<span class="seta-details text-xl transition-transform">+</span></summary>
+          <p class="pt-3 leading-relaxed text-grafite">Escolha as peças, selecione tamanho e quantidade e adicione ao carrinho. Ao finalizar, abrimos o WhatsApp com o resumo do pedido pronto. É só enviar, e combinamos pagamento e entrega por lá.</p>
+        </details>
+        <details class="border-b border-linha py-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 font-serif text-xl">Quais as formas de pagamento?<span class="seta-details text-xl transition-transform">+</span></summary>
+          <p class="pt-3 leading-relaxed text-grafite">Pix, cartão de crédito em até 3x sem juros e boleto. Enviamos o link de pagamento pelo WhatsApp.</p>
+        </details>
+        <details class="border-b border-linha py-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 font-serif text-xl">Qual o prazo de entrega?<span class="seta-details text-xl transition-transform">+</span></summary>
+          <p class="pt-3 leading-relaxed text-grafite">Postamos em até 3 dias úteis após a confirmação do pagamento. O prazo dos Correios ou da transportadora varia conforme a sua região. Acima de R$ 199, o frete é por nossa conta.</p>
+        </details>
+        <details class="border-b border-linha py-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 font-serif text-xl">Posso trocar se não servir?<span class="seta-details text-xl transition-transform">+</span></summary>
+          <p class="pt-3 leading-relaxed text-grafite">Pode! A primeira troca é grátis em até 30 dias após o recebimento, desde que a peça não tenha sido usada nem lavada.</p>
+        </details>
+        <details class="border-b border-linha py-5">
+          <summary class="flex cursor-pointer items-center justify-between gap-4 font-serif text-xl">Vocês fazem parcerias?<span class="seta-details text-xl transition-transform">+</span></summary>
+          <p class="pt-3 leading-relaxed text-grafite">Sim. Adoramos trabalhar com clubes de leitura, autores independentes, editoras e criadores de conteúdo literário. Escolha o assunto “Parcerias” no formulário acima.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <div id="rodape"></div>
+</body>
+</html>
