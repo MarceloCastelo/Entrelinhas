@@ -10,6 +10,16 @@ const LOJA = {
   instagram: 'https://instagram.com/entrelinhas',
   tiktok: 'https://tiktok.com/@entrelinhas',
   freteGratisAcima: 199,
+  // Pagamento (simulado: o site não tem backend nem gateway de pagamento)
+  descontoPix: 0.05,
+  parcelasSemJuros: 3,
+  parcelaMinima: 30,
+  validadeBoletoDias: 3,
+  validadePixMinutos: 30,
+  fretes: [
+    { id: 'pac', nome: 'PAC', prazo: '5 a 9 dias úteis', preco: 19.9, gratisAcimaDoLimite: true },
+    { id: 'sedex', nome: 'SEDEX', prazo: '2 a 4 dias úteis', preco: 34.9, gratisAcimaDoLimite: false },
+  ],
 };
 
 function linkWhatsApp(mensagem) {
@@ -53,8 +63,8 @@ function htmlCabecalho(pagina) {
   return `
     <div class="bg-tinta text-papel">
       <p class="mx-auto max-w-site px-4 py-2 text-center text-[11px] uppercase tracking-[0.2em] sm:px-6">
-        Marca-páginas de brinde em todo pedido <span class="mx-2 text-vinho">✦</span>
-        <span class="hidden sm:inline">Frete grátis acima de ${formatarPreco(LOJA.freteGratisAcima)}</span>
+        Marca-páginas de brinde em todo pedido
+        <span class="hidden sm:inline"><span class="mx-2 text-vinho">✦</span> Frete grátis acima de ${formatarPreco(LOJA.freteGratisAcima)}</span>
       </p>
     </div>
 
@@ -442,5 +452,7 @@ document.addEventListener('DOMContentLoaded', () => {
     case 'produtos': iniciarCatalogo(); break;
     case 'produto': iniciarPaginaProduto(); break;
     case 'contato': iniciarContato(); break;
+    case 'checkout': iniciarCheckout(); break;
+    case 'pedido': iniciarPedido(); break;
   }
 });

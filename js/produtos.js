@@ -677,7 +677,10 @@ function iniciarPaginaProduto() {
         <p class="mt-2 text-sm text-grafite">${categoria.singular} · ${p.corNome}</p>
 
         <p class="mt-6 text-2xl font-medium">${formatarPreco(p.preco)}</p>
-        <p class="text-sm text-grafite">ou 3x de ${formatarPreco(p.preco / 3)} sem juros</p>
+        <p class="text-sm text-grafite">
+          ou ${LOJA.parcelasSemJuros}x de ${formatarPreco(p.preco / LOJA.parcelasSemJuros)} sem juros ·
+          <strong class="font-medium text-tinta">${formatarPreco(p.preco * (1 - LOJA.descontoPix))} no Pix</strong>
+        </p>
 
         <p class="mt-6 max-w-prose leading-relaxed">${escaparHTML(p.descricao)}</p>
         ${p.referencia ? `<p class="mt-4 border-l-2 border-vinho pl-4 font-serif italic text-grafite">${escaparHTML(p.referencia)}</p>` : ''}
@@ -706,8 +709,8 @@ function iniciarPaginaProduto() {
             <button type="submit" class="flex-1 bg-tinta px-6 py-4 text-sm font-medium uppercase tracking-widest text-papel transition hover:bg-vinho">
               Adicionar ao carrinho
             </button>
-            <button type="button" id="comprar-whatsapp" class="flex-1 border border-tinta px-6 py-4 text-sm font-medium uppercase tracking-widest transition hover:bg-tinta hover:text-papel">
-              Comprar pelo WhatsApp
+            <button type="button" id="comprar-agora" class="flex-1 border border-tinta px-6 py-4 text-sm font-medium uppercase tracking-widest transition hover:bg-tinta hover:text-papel">
+              Comprar agora
             </button>
           </div>
         </form>
@@ -762,11 +765,11 @@ function iniciarPaginaProduto() {
     Carrinho.abrir();
   });
 
-  document.getElementById('comprar-whatsapp').addEventListener('click', () => {
+  document.getElementById('comprar-agora').addEventListener('click', () => {
     const escolha = lerEscolha();
     if (!escolha) return;
-    const mensagem = Carrinho.montarMensagem([{ produto: p, tamanho: escolha.tamanho, quantidade: escolha.quantidade }]);
-    window.open(linkWhatsApp(mensagem), '_blank', 'noopener');
+    Carrinho.adicionar(p.id, escolha.tamanho, escolha.quantidade);
+    location.href = 'checkout.html';
   });
 
   // Produtos relacionados: mesma coleção primeiro, depois o restante

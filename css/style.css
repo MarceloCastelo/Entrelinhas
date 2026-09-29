@@ -75,6 +75,107 @@ html {
   transition: opacity 0.3s ease;
 }
 
+/* Garante que [hidden] vença classes de display do Tailwind (flex, block...) */
+[hidden] {
+  display: none !important;
+}
+
+/* Formulário de checkout */
+.etapa {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
+}
+
+.etapa > span {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: #171717;
+  color: #f5f2ea;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.rotulo {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.campo {
+  width: 100%;
+  border: 1px solid #d9d1c0;
+  background: #f5f2ea;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.campo:focus {
+  border-color: #171717;
+  outline: none;
+}
+
+.campo[aria-invalid='true'] {
+  border-color: #8f1d2c;
+  background: #fbf1f1;
+}
+
+.erro-campo {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8rem;
+  color: #8f1d2c;
+}
+
+.opcao-pagamento {
+  cursor: pointer;
+}
+
+.opcao-pagamento > span {
+  height: 100%;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid #d9d1c0;
+  padding: 0.9rem 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.opcao-pagamento:hover > span {
+  border-color: #171717;
+}
+
+/* Indicador de carregamento do botão de pagamento */
+.girando {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(245, 242, 234, 0.35);
+  border-top-color: #f5f2ea;
+  border-radius: 9999px;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
 /* Mockups SVG */
 .mockup svg {
   width: 100%;

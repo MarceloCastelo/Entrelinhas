@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finalizar compra — Entrelinhas</title>
+  <meta name="description" content="Finalize sua compra na Entrelinhas com cartão de crédito, Pix ou boleto.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#171717">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,700;1,500;1,700&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/produtos.js" defer></script>
+  <script src="js/carrinho.js" defer></script>
+  <script src="js/checkout.js" defer></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body data-pagina="checkout" class="bg-papel font-sans text-tinta antialiased">
+  <div id="cabecalho"></div>
+
+  <main class="mx-auto max-w-site px-4 py-10 sm:px-6">
+    <header class="border-b border-linha pb-8">
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-vinho">Último capítulo</p>
+      <h1 class="mt-3 font-serif text-4xl sm:text-5xl">Finalizar compra</h1>
+    </header>
+
+    <!-- Carrinho vazio -->
+    <div id="checkout-vazio" class="py-20 text-center" hidden>
+      <p class="font-serif text-3xl">Seu carrinho está em branco.</p>
+      <p class="mt-3 text-grafite">Escolha algumas histórias para vestir antes de finalizar.</p>
+      <a href="produtos.html" class="mt-8 inline-block bg-tinta px-8 py-4 text-sm font-semibold uppercase tracking-widest text-papel hover:bg-vinho">Ver a estante</a>
+    </div>
+
+    <form id="form-checkout" class="grid gap-10 pt-8 lg:grid-cols-12" novalidate hidden>
+      <div class="space-y-10 lg:col-span-7">
+
+        <!-- 1. Identificação -->
+        <fieldset>
+          <legend class="etapa"><span>1</span> Seus dados</legend>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <label class="block sm:col-span-2">
+              <span class="rotulo">Nome completo</span>
+              <input name="nome" type="text" autocomplete="name" class="campo">
+              <span class="erro-campo" data-erro="nome" hidden></span>
+            </label>
+            <label class="block">
+              <span class="rotulo">E-mail</span>
+              <input name="email" type="email" autocomplete="email" inputmode="email" class="campo">
+              <span class="erro-campo" data-erro="email" hidden></span>
+            </label>
+            <label class="block">
+              <span class="rotulo">Celular</span>
+              <input name="telefone" type="tel" autocomplete="tel-national" inputmode="numeric" placeholder="(00) 00000-0000" class="campo">
+              <span class="erro-campo" data-erro="telefone" hidden></span>
+            </label>
+            <label class="block">
+              <span class="rotulo">CPF</span>
+              <input name="cpf" type="text" inputmode="numeric" placeholder="000.000.000-00" class="campo">
+              <span class="erro-campo" data-erro="cpf" hidden></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 2. Endereço -->
+        <fieldset>
+          <legend class="etapa"><span>2</span> Endereço de entrega</legend>
+          <div class="grid gap-4 sm:grid-cols-6">
+            <label class="block sm:col-span-2">
+              <span class="rotulo">CEP</span>
+              <input name="cep" type="text" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" class="campo">
+              <span class="erro-campo" data-erro="cep" hidden></span>
+              <span id="cep-status" class="mt-1 block text-xs text-grafite" aria-live="polite"></span>
+            </label>
+            <label class="block sm:col-span-4">
+              <span class="rotulo">Rua</span>
+              <input name="rua" type="text" autocomplete="address-line1" class="campo">
+              <span class="erro-campo" data-erro="rua" hidden></span>
+            </label>
+            <label class="block sm:col-span-2">
+              <span class="rotulo">Número</span>
+              <input name="numero" type="text" inputmode="numeric" class="campo">
+              <span class="erro-campo" data-erro="numero" hidden></span>
+            </label>
+            <label class="block sm:col-span-4">
+              <span class="rotulo">Complemento <em class="font-normal normal-case tracking-normal text-grafite">(opcional)</em></span>
+              <input name="complemento" type="text" autocomplete="address-line2" class="campo">
+            </label>
+            <label class="block sm:col-span-2">
+              <span class="rotulo">Bairro</span>
+              <input name="bairro" type="text" class="campo">
+              <span class="erro-campo" data-erro="bairro" hidden></span>
+            </label>
+            <label class="block sm:col-span-3">
+              <span class="rotulo">Cidade</span>
+              <input name="cidade" type="text" autocomplete="address-level2" class="campo">
+              <span class="erro-campo" data-erro="cidade" hidden></span>
+            </label>
+            <label class="block sm:col-span-1">
+              <span class="rotulo">UF</span>
+              <select name="uf" autocomplete="address-level1" class="campo"><option value="">—</option></select>
+              <span class="erro-campo" data-erro="uf" hidden></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- 3. Frete -->
+        <fieldset>
+          <legend class="etapa"><span>3</span> Frete</legend>
+          <div id="opcoes-frete" class="grid gap-3"></div>
+        </fieldset>
+
+        <!-- 4. Pagamento -->
+        <fieldset>
+          <legend class="etapa"><span>4</span> Pagamento</legend>
+
+          <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Forma de pagamento">
+            <label class="opcao-pagamento">
+              <input type="radio" name="metodo" value="cartao" class="peer sr-only" checked>
+              <span class="peer-checked:border-tinta peer-checked:bg-tinta peer-checked:text-papel peer-focus-visible:ring-2 peer-focus-visible:ring-vinho">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="2.5" y="5" width="19" height="14" rx="2"/><path d="M2.5 10h19M6 15h4"/></svg>
+                Cartão
+              </span>
+            </label>
+            <label class="opcao-pagamento">
+              <input type="radio" name="metodo" value="pix" class="peer sr-only">
+              <span class="peer-checked:border-tinta peer-checked:bg-tinta peer-checked:text-papel peer-focus-visible:ring-2 peer-focus-visible:ring-vinho">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.5 4.2 4.2-4.2 4.2-4.2-4.2L12 2.5ZM12 13.1l4.2 4.2-4.2 4.2-4.2-4.2 4.2-4.2ZM6.7 7.8l4.2 4.2-4.2 4.2L2.5 12l4.2-4.2ZM17.3 7.8l4.2 4.2-4.2 4.2-4.2-4.2 4.2-4.2Z"/></svg>
+                Pix <small class="text-[10px] font-semibold opacity-80">−5%</small>
+              </span>
+            </label>
+            <label class="opcao-pagamento">
+              <input type="radio" name="metodo" value="boleto" class="peer sr-only">
+              <span class="peer-checked:border-tinta peer-checked:bg-tinta peer-checked:text-papel peer-focus-visible:ring-2 peer-focus-visible:ring-vinho">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M4 5v14M7 5v14M10 5v14M12.5 5v14M15 5v14M18 5v14M20 5v14"/></svg>
+                Boleto
+              </span>
+            </label>
+          </div>
+
+          <!-- Cartão -->
+          <div id="painel-cartao" class="mt-6 grid gap-4 sm:grid-cols-6">
+            <label class="block sm:col-span-6">
+              <span class="rotulo">Número do cartão</span>
+              <span class="relative block">
+                <input name="cartaoNumero" type="text" inputmode="numeric" autocomplete="cc-number" placeholder="0000 0000 0000 0000" class="campo pr-28">
+                <span id="bandeira" class="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold uppercase tracking-widest text-grafite"></span>
+              </span>
+              <span class="erro-campo" data-erro="cartaoNumero" hidden></span>
+            </label>
+            <label class="block sm:col-span-6">
+              <span class="rotulo">Nome impresso no cartão</span>
+              <input name="cartaoNome" type="text" autocomplete="cc-name" class="campo uppercase">
+              <span class="erro-campo" data-erro="cartaoNome" hidden></span>
+            </label>
+            <label class="block sm:col-span-3">
+              <span class="rotulo">Validade</span>
+              <input name="cartaoValidade" type="text" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/AA" class="campo">
+              <span class="erro-campo" data-erro="cartaoValidade" hidden></span>
+            </label>
+            <label class="block sm:col-span-3">
+              <span class="rotulo">CVV</span>
+              <input name="cartaoCvv" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="000" maxlength="4" class="campo">
+              <span class="erro-campo" data-erro="cartaoCvv" hidden></span>
+            </label>
+            <label class="block sm:col-span-6">
+              <span class="rotulo">Parcelas</span>
+              <select name="parcelas" class="campo"></select>
+            </label>
+          </div>
+
+          <!-- Pix -->
+          <div id="painel-pix" class="mt-6 border border-linha bg-papel-escuro/50 p-5 text-sm leading-relaxed" hidden>
+            <p class="font-serif text-xl">Pague com Pix e ganhe <span id="pix-percentual"></span> de desconto.</p>
+            <p class="mt-2 text-grafite">Ao finalizar, mostramos o QR Code e o código “copia e cola”. O código vale por <span id="pix-validade"></span> minutos, e a aprovação é imediata.</p>
+          </div>
+
+          <!-- Boleto -->
+          <div id="painel-boleto" class="mt-6 border border-linha bg-papel-escuro/50 p-5 text-sm leading-relaxed" hidden>
+            <p class="font-serif text-xl">Boleto bancário</p>
+            <p class="mt-2 text-grafite">O boleto vence em <span id="boleto-validade"></span> dias. A compensação leva até 2 dias úteis, e o pedido é separado depois da confirmação.</p>
+          </div>
+        </fieldset>
+      </div>
+
+      <!-- Resumo -->
+      <aside class="lg:col-span-5">
+        <div class="border border-linha bg-papel-escuro/40 p-6 lg:sticky lg:top-24">
+          <h2 class="font-serif text-2xl">Resumo do pedido</h2>
+          <ul id="resumo-itens" class="mt-4 divide-y divide-linha border-y border-linha"></ul>
+          <dl id="resumo-totais" class="mt-4 space-y-2 text-sm"></dl>
+
+          <button type="submit" id="botao-finalizar" class="mt-6 flex w-full items-center justify-center gap-3 bg-vinho px-6 py-4 text-sm font-semibold uppercase tracking-widest text-papel transition hover:bg-vinho-escuro disabled:cursor-wait disabled:opacity-80">
+            Finalizar pedido
+          </button>
+          <p id="erro-geral" class="mt-3 text-sm text-vinho" role="alert" hidden>Confira os campos destacados antes de continuar.</p>
+
+          <p class="mt-5 border-l-2 border-vinho pl-3 text-xs leading-relaxed text-grafite">
+            <strong class="text-tinta">Ambiente de demonstração.</strong> Este é um projeto acadêmico: nenhum pagamento é
+            processado e os dados do cartão não são enviados nem salvos. Para testar, use um número de cartão fictício
+            válido, como 4111 1111 1111 1111.
+          </p>
+        </div>
+      </aside>
+    </form>
+  </main>
+
+  <div id="rodape"></div>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /* ==========================================================================
    Entrelinhas — carrinho de compras
    Os itens ficam salvos no localStorage do navegador e o pedido é
-   finalizado pelo WhatsApp da loja.
+   finalizado no checkout (checkout.html / js/checkout.js).
    ========================================================================== */
 
 const Carrinho = (() => {
@@ -67,24 +67,6 @@ const Carrinho = (() => {
 
   function quantidadeTotal() {
     return ler().reduce((soma, i) => soma + i.quantidade, 0);
-  }
-
-  // Mensagem enviada ao WhatsApp da loja
-  function montarMensagem(lista) {
-    const linhas = lista.map(({ produto, tamanho, quantidade }) => {
-      const valor = quantidade > 1
-        ? `${formatarPreco(produto.preco)} cada`
-        : formatarPreco(produto.preco);
-      return `- ${produto.nome} — ${tamanho} — ${quantidade}x (${valor})`;
-    });
-
-    return [
-      'Olá! Gostaria de fazer um pedido na Entrelinhas.',
-      '',
-      ...linhas,
-      '',
-      `Total: ${formatarPreco(total(lista))}`,
-    ].join('\n');
   }
 
   /* ----------------------------------------------------------------------
@@ -159,10 +141,10 @@ const Carrinho = (() => {
         <span class="text-sm uppercase tracking-widest">Total</span>
         <span class="font-serif text-2xl">${formatarPreco(valorTotal)}</span>
       </div>
-      <p class="mt-1 text-xs text-grafite">Frete e pagamento combinados pelo WhatsApp. Marca-páginas de brinde incluso.</p>
-      <a href="${linkWhatsApp(montarMensagem(atuais))}" target="_blank" rel="noopener"
+      <p class="mt-1 text-xs text-grafite">Frete calculado no checkout. Cartão em até ${LOJA.parcelasSemJuros}x sem juros, Pix com ${LOJA.descontoPix * 100}% de desconto ou boleto.</p>
+      <a href="checkout.html"
         class="mt-4 flex items-center justify-center gap-2 bg-vinho px-6 py-4 text-sm font-medium uppercase tracking-widest text-papel transition hover:bg-vinho-escuro">
-        ${ICONES.whatsapp} Finalizar pelo WhatsApp
+        Finalizar compra
       </a>
       <div class="mt-3 flex justify-between text-xs">
         <button type="button" data-acao="fechar-carrinho" class="text-grafite underline hover:text-tinta">Continuar comprando</button>
@@ -200,5 +182,5 @@ const Carrinho = (() => {
     render();
   }
 
-  return { adicionar, alterarQuantidade, remover, limpar, itens, total, quantidadeTotal, montarMensagem, abrir, iniciar, render };
+  return { adicionar, alterarQuantidade, remover, limpar, itens, total, quantidadeTotal, abrir, iniciar, render };
 })();
