@@ -1,267 +1,150 @@
 /* ==========================================================================
    Entrelinhas — catálogo de produtos
-   Para adicionar um produto, basta incluir um novo objeto em PRODUTOS.
+   Para adicionar um produto, basta incluir um novo objeto em PRODUTOS e
+   colocar as fotos em assets/img/produtos/<pasta>/<arquivo>.jpeg.
    ========================================================================== */
 
 const CATEGORIAS = {
-  camisetas:      { nome: 'Camisetas',     singular: 'Camiseta',     grupo: 'roupas' },
-  moletons:       { nome: 'Moletons',      singular: 'Moletom',      grupo: 'roupas' },
-  croppeds:       { nome: 'Croppeds',      singular: 'Cropped',      grupo: 'roupas' },
-  bones:          { nome: 'Bonés',         singular: 'Boné',         grupo: 'acessorios' },
-  ecobags:        { nome: 'Ecobags',       singular: 'Ecobag',       grupo: 'acessorios' },
-  canecas:        { nome: 'Canecas',       singular: 'Caneca',       grupo: 'acessorios' },
-  posters:        { nome: 'Pôsteres',      singular: 'Pôster',       grupo: 'acessorios' },
-  'marca-paginas': { nome: 'Marca-páginas', singular: 'Kit marca-páginas', grupo: 'acessorios' },
+  musica: {
+    nome: 'Música',
+    descricao: 'Versos que tocaram no rádio, na vitrola e na memória, agora estampados.',
+  },
+  filmes: {
+    nome: 'Filmes',
+    descricao: 'Sagas que saíram das páginas, ganharam as telas e agora vão para o guarda-roupa.',
+  },
+  livros: {
+    nome: 'Livros',
+    descricao: 'Frases sublinhadas a lápis, direto da estante para o peito.',
+  },
 };
 
-const GRUPOS = {
-  roupas:     { nome: 'Roupas' },
-  acessorios: { nome: 'Acessórios' },
-};
-
-const COLECOES = {
-  'classicos-brasileiros': {
-    nome: 'Clássicos brasileiros',
-    descricao: 'Machado, Mário, Drummond e companhia, direto da estante para o guarda-roupa.',
-  },
-  metalinguagem: {
-    nome: 'Metalinguagem',
-    descricao: 'Estampas que sabem que são estampas. Figuras de linguagem, plot twists e notas de rodapé.',
-  },
-  'vida-de-leitor': {
-    nome: 'Vida de leitor',
-    descricao: 'Para quem já disse "só mais um capítulo" às duas da manhã.',
-  },
+// Cores de malha disponíveis. "hex" é usado nas bolinhas de seleção de cor.
+const CORES = {
+  branca:   { nome: 'Branca',       hex: '#F4F4F2' },
+  preta:    { nome: 'Preta',        hex: '#1F1F1F' },
+  vermelha: { nome: 'Vermelha',     hex: '#B32523' },
+  vinho:    { nome: 'Vinho',        hex: '#6E1D24' },
+  amarela:  { nome: 'Amarela',      hex: '#E09A14' },
+  laranja:  { nome: 'Laranja',      hex: '#C4552E' },
+  ferrugem: { nome: 'Ferrugem',     hex: '#7E3417' },
+  marinho:  { nome: 'Azul-marinho', hex: '#26324A' },
 };
 
 const TAMANHOS = {
-  roupa:     ['P', 'M', 'G', 'GG'],
-  oversized: ['P', 'M', 'G', 'GG', 'XG'],
-  cropped:   ['P', 'M', 'G'],
-  poster:    ['A4', 'A3'],
-  unico:     ['Único'],
+  roupa: ['P', 'M', 'G', 'GG'],
 };
 
-const DETALHES = {
-  camisetas: '100% algodão penteado fio 30.1, gola careca com ribana e estampa em silk à base d\'água.',
-  moletons:  'Moletom flanelado 50% algodão e 50% poliéster, capuz forrado, bolso canguru e punhos com ribana.',
-  croppeds:  'Malha 100% algodão com modelagem cropped levemente ajustada e estampa em silk.',
-  bones:     'Boné dad hat em sarja 100% algodão, aba curva e regulagem com fivela metálica.',
-  ecobags:   'Lona crua 100% algodão, 38 × 42 cm, alças reforçadas que aguentam uma trilogia inteira.',
-  canecas:   'Cerâmica branca de 325 ml, pode ir ao micro-ondas e à lava-louças.',
-  posters:   'Impressão em papel couché fosco 250 g. A moldura não acompanha o produto.',
-  'marca-paginas': 'Kit com 3 marca-páginas em papel 300 g com laminação fosca e cordão de algodão.',
-};
+const DETALHES = '100% algodão penteado fio 30.1, gola careca com ribana e estampa em silk à base d\'água.';
 
-// Tipos de mockup: camiseta | moletom | cropped | bone | ecobag | caneca | poster | marcapagina
+const PASTA_FOTOS = 'assets/img/produtos';
+
+// "cores" liga cada cor (chave de CORES) ao nome do arquivo da foto dentro da pasta do produto.
+// A primeira cor da lista é a que aparece por padrão.
 const PRODUTOS = [
   {
-    id: 'nao-era-uma-metafora',
-    nome: 'Não era uma metáfora',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'metalinguagem',
+    id: 'as-vezes-no-silencio-da-noite',
+    nome: 'Às vezes no silêncio da noite',
+    tema: 'Caetano Veloso',
+    categoria: 'musica',
     preco: 89.9,
-    cor: '#171717', corNome: 'Preto',
-    estampa: { linhas: ['Não era', 'uma metáfora.'], cor: '#F5F2EA' },
+    pasta: 'caetano_veloso',
+    cores: { preta: 'preta', vinho: 'vermelha', branca: 'branca' },
     tamanhos: TAMANHOS.roupa,
-    descricao: 'Para quando todo mundo procura significado escondido e você só estava falando do que estava falando mesmo.',
+    descricao: 'Traço fino, violão no colo e o verso que todo mundo já cantou baixinho pensando em alguém. Para quem se pega imaginando nós dois.',
+    referencia: 'Caetano Veloso, "Sozinho" (composição de Peninha).',
     destaque: true,
   },
   {
-    id: 'so-mais-um-capitulo',
-    nome: 'Só mais um capítulo',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'vida-de-leitor',
+    id: 'guarde-um-pedaco-de-mim',
+    nome: 'Guarde um pedaço de mim',
+    tema: 'Gal Costa',
+    categoria: 'musica',
     preco: 89.9,
-    cor: '#FBF8F1', corNome: 'Off-white',
-    estampa: { linhas: ['Só mais', 'um capítulo.'], cor: '#171717' },
+    pasta: 'gal_costa',
+    cores: { vermelha: 'vermelha', preta: 'preta', branca: 'branca' },
     tamanhos: TAMANHOS.roupa,
-    descricao: 'A maior mentira que um leitor conta para si mesmo, agora em algodão. Ideal para usar às 2h da manhã.',
-    destaque: true,
-  },
-  {
-    id: 'plot-twist',
-    nome: 'Plot Twist',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'metalinguagem',
-    preco: 99.9,
-    cor: '#8F1D2C', corNome: 'Vinho',
-    estampa: { linhas: ['PLOT', 'TWIST.'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.oversized,
-    descricao: 'Modelagem oversized, porque ninguém esperava. A reviravolta que o seu guarda-roupa pedia.',
+    descricao: 'Cabelo solto, microfone na mão e uma voz que não cabia em lugar nenhum. Uma homenagem a Gal, para vestir e cantar junto.',
+    referencia: 'Homenagem a Gal Costa.',
     novo: true,
-    destaque: true,
   },
   {
-    id: 'leio-logo-existo',
-    nome: 'Leio, logo existo',
-    categoria: 'croppeds',
-    mockup: 'cropped',
-    colecao: 'vida-de-leitor',
-    preco: 79.9,
-    cor: '#FBF8F1', corNome: 'Off-white',
-    estampa: { linhas: ['Leio,', 'logo existo.'], cor: '#8F1D2C' },
-    tamanhos: TAMANHOS.cropped,
-    descricao: 'Descartes que nos perdoe, mas a versão correta é essa. Cropped leve para quem pensa (e lê) muito.',
-    referencia: 'Paródia de "Penso, logo existo", de René Descartes.',
-  },
-  {
-    id: 'livros-antes-dos-boletos',
-    nome: 'Livros antes dos boletos',
-    categoria: 'ecobags',
-    mockup: 'ecobag',
-    colecao: 'vida-de-leitor',
-    preco: 59.9,
-    cor: '#E2D6BE', corNome: 'Lona crua',
-    estampa: { linhas: ['Livros', 'antes dos', 'boletos.'], cor: '#171717' },
-    tamanhos: TAMANHOS.unico,
-    descricao: 'Uma questão de prioridades. Cabe todos os livros que você comprou "sem querer" na última feira.',
-    destaque: true,
-  },
-  {
-    id: 'final-feliz-nao-encontrado',
-    nome: '404: Final feliz não encontrado',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'metalinguagem',
+    id: 'olhos-de-cigana',
+    nome: 'Olhos de cigana oblíqua e dissimulada',
+    tema: 'Dom Casmurro',
+    categoria: 'livros',
     preco: 89.9,
-    cor: '#171717', corNome: 'Preto',
-    estampa: { linhas: ['Erro 404:', 'final feliz', 'não', 'encontrado.'], cor: '#F5F2EA' },
+    pasta: 'dom_casmurro',
+    cores: { branca: 'branca', preta: 'preta', vinho: 'vermelha' },
     tamanhos: TAMANHOS.roupa,
-    descricao: 'Para leitores de romances trágicos e programadores que leem romances trágicos.',
-  },
-  {
-    id: 'ao-vencedor-as-batatas',
-    nome: 'Ao vencedor, as batatas!',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'classicos-brasileiros',
-    preco: 89.9,
-    cor: '#3A4636', corNome: 'Verde musgo',
-    estampa: { linhas: ['Ao vencedor,', 'as batatas!'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.roupa,
-    descricao: 'A filosofia do Humanitismo, de Quincas Borba, resumida em uma frase e estampada no peito.',
-    referencia: 'Machado de Assis, "Quincas Borba" (1891).',
-    destaque: true,
-  },
-  {
-    id: 'olhos-de-ressaca',
-    nome: 'Olhos de ressaca',
-    categoria: 'croppeds',
-    mockup: 'cropped',
-    colecao: 'classicos-brasileiros',
-    preco: 79.9,
-    cor: '#171717', corNome: 'Preto',
-    estampa: { linhas: ['Olhos de', 'ressaca.'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.cropped,
-    descricao: 'Olhos de cigana oblíqua e dissimulada. Se traiu ou não, a gente deixa a discussão para o clube do livro.',
+    descricao: 'Olhos de ressaca, mãos que se encontram e a dúvida mais famosa da literatura brasileira. Se Capitu traiu ou não, a gente deixa para o clube do livro.',
     referencia: 'Machado de Assis, "Dom Casmurro" (1899).',
-  },
-  {
-    id: 'ai-que-preguica',
-    nome: 'Ai, que preguiça!',
-    categoria: 'moletons',
-    mockup: 'moletom',
-    colecao: 'classicos-brasileiros',
-    preco: 189.9,
-    cor: '#4A4540', corNome: 'Grafite',
-    estampa: { linhas: ['Ai, que', 'preguiça!'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.roupa,
-    descricao: 'O bordão do herói sem nenhum caráter virou o moletom mais confortável da estante. Domingo agradece.',
-    referencia: 'Mário de Andrade, "Macunaíma" (1928).',
     destaque: true,
   },
   {
-    id: 'pedra-no-meio-do-caminho',
-    nome: 'No meio do caminho',
-    categoria: 'canecas',
-    mockup: 'caneca',
-    colecao: 'classicos-brasileiros',
-    preco: 49.9,
-    cor: '#FBF8F1', corNome: 'Branca',
-    estampa: { linhas: ['No meio', 'do caminho', 'tinha uma', 'pedra.'], cor: '#171717' },
-    tamanhos: TAMANHOS.unico,
-    descricao: 'Para o café de segunda-feira, quando a pedra no meio do caminho é a própria segunda-feira.',
-    referencia: 'Carlos Drummond de Andrade, "No meio do caminho" (1928).',
-  },
-  {
-    id: 'e-agora-jose',
-    nome: 'E agora, José?',
-    categoria: 'bones',
-    mockup: 'bone',
-    colecao: 'classicos-brasileiros',
-    preco: 69.9,
-    cor: '#8F1D2C', corNome: 'Vinho',
-    estampa: { linhas: ['E agora,', 'José?'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.unico,
-    descricao: 'A festa acabou, a luz apagou, o povo sumiu, mas o boné continua lindo.',
-    referencia: 'Carlos Drummond de Andrade, "José" (1942).',
-    novo: true,
-  },
-  {
-    id: 'vivendo-em-outra-historia',
-    nome: 'Vivendo em outra história',
-    categoria: 'moletons',
-    mockup: 'moletom',
-    colecao: 'vida-de-leitor',
-    preco: 189.9,
-    cor: '#8F1D2C', corNome: 'Vinho',
-    estampa: { linhas: ['Vivendo em', 'outra', 'história.'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.roupa,
-    descricao: 'Fisicamente presente, mentalmente em outro universo ficcional. Capuz incluso para fingir que não ouviu.',
-    novo: true,
-  },
-  {
-    id: 'abandonar-livro-nao-e-crime',
-    nome: 'Abandonar livro não é crime',
-    categoria: 'posters',
-    mockup: 'poster',
-    colecao: 'vida-de-leitor',
-    preco: 39.9,
-    cor: '#F5F2EA', corNome: 'Papel',
-    estampa: { linhas: ['Abandonar', 'livro', 'não é', 'crime.'], cor: '#171717' },
-    tamanhos: TAMANHOS.poster,
-    descricao: 'Um lembrete oficial, para pendurar ao lado da estante, de que a vida é curta demais para livro chato.',
-  },
-  {
-    id: 'eu-parei-aqui',
-    nome: 'Eu parei aqui',
-    categoria: 'marca-paginas',
-    mockup: 'marcapagina',
-    colecao: 'vida-de-leitor',
-    preco: 19.9,
-    cor: '#F5F2EA', corNome: 'Sortidas',
-    estampa: { linhas: ['Eu parei aqui.'], cor: '#171717' },
-    tamanhos: TAMANHOS.unico,
-    descricao: 'Kit com três marca-páginas para você nunca mais dobrar a orelha do livro. A gente está vendo.',
-  },
-  {
-    id: 'nota-de-rodape-ambulante',
-    nome: 'Nota de rodapé ambulante',
-    categoria: 'camisetas',
-    mockup: 'camiseta',
-    colecao: 'metalinguagem',
+    id: 'amar-e-mudar-a-alma-de-casa',
+    nome: 'Amar é mudar a alma de casa',
+    tema: 'Mario Quintana',
+    categoria: 'livros',
     preco: 89.9,
-    cor: '#D8C9AC', corNome: 'Areia',
-    estampa: { linhas: ['Nota de rodapé', 'ambulante*'], cor: '#171717' },
+    pasta: 'mario_quitanda',
+    cores: { marinho: 'azul', branca: 'branca', preta: 'preta', vinho: 'vermelha' },
     tamanhos: TAMANHOS.roupa,
-    descricao: '*Para quem sempre tem um comentário a mais, uma referência extra e um "na verdade, no livro...".',
+    descricao: 'Uma casinha, um coração e a definição de amor mais bonita que cabe numa camiseta. Quintana entendia de mudanças.',
+    referencia: 'Mario Quintana.',
+    novo: true,
   },
   {
-    id: 'capitu-traiu',
-    nome: 'Capitu traiu?',
-    categoria: 'ecobags',
-    mockup: 'ecobag',
-    colecao: 'classicos-brasileiros',
-    preco: 59.9,
-    cor: '#171717', corNome: 'Preta',
-    estampa: { linhas: ['Capitu', 'traiu?'], cor: '#F5F2EA' },
-    tamanhos: TAMANHOS.unico,
-    descricao: 'A pergunta que divide o Brasil desde 1899. Carregue o debate para onde for.',
-    referencia: 'Machado de Assis, "Dom Casmurro" (1899).',
+    id: 'tu-te-tornas-eternamente-responsavel',
+    nome: 'Tu te tornas eternamente responsável',
+    tema: 'O Pequeno Príncipe',
+    categoria: 'livros',
+    preco: 89.9,
+    pasta: 'pequeno_principe',
+    cores: { preta: 'preto', marinho: 'azul', branca: 'branco' },
+    tamanhos: TAMANHOS.roupa,
+    descricao: 'A rosa, a raposa e o pequeno asteroide emoldurando a frase que atravessa gerações. Presente certo para quem você cativou.',
+    referencia: 'Antoine de Saint-Exupéry, "O Pequeno Príncipe" (1943).',
+    destaque: true,
+  },
+  {
+    id: 'happee-birthdae-harry',
+    nome: 'Happee Birthdae Harry',
+    tema: 'Harry Potter',
+    categoria: 'filmes',
+    preco: 89.9,
+    pasta: 'harry_potter',
+    cores: { amarela: 'amarela', vinho: 'vermelha', preta: 'preta', branca: 'branca' },
+    tamanhos: TAMANHOS.roupa,
+    descricao: 'O bolo amassado, de cobertura rosa e letras tortas, que Hagrid entregou na cabana do rochedo. O melhor presente de aniversário do mundo bruxo.',
+    referencia: 'J. K. Rowling, "Harry Potter e a Pedra Filosofal" (1997), levado aos cinemas em 2001.',
+    destaque: true,
+  },
+  {
+    id: 'o-tordo',
+    nome: 'O Tordo',
+    tema: 'Jogos Vorazes',
+    categoria: 'filmes',
+    preco: 89.9,
+    pasta: 'hunger_games',
+    cores: { ferrugem: 'laranja', preta: 'preta', branca: 'branca' },
+    tamanhos: TAMANHOS.roupa,
+    descricao: 'O broche que virou símbolo de uma revolução. Para quem se voluntaria como tributo sem pensar duas vezes.',
+    referencia: 'Suzanne Collins, "Jogos Vorazes" (2008), levado aos cinemas em 2012.',
+    novo: true,
+  },
+  {
+    id: 'acampamento-meio-sangue',
+    nome: 'Acampamento Meio-Sangue',
+    tema: 'Percy Jackson',
+    categoria: 'filmes',
+    preco: 89.9,
+    pasta: 'percy_jackson',
+    cores: { laranja: 'laranja', preta: 'preta', branca: 'branca' },
+    tamanhos: TAMANHOS.roupa,
+    descricao: 'Espada de bronze celestial e a faixa do acampamento para quem tem certeza de que é filho de algum deus. Laranja, como manda o uniforme.',
+    referencia: 'Rick Riordan, "Percy Jackson e os Olimpianos" (2005), levado aos cinemas e ao streaming.',
+    novo: true,
   },
 ];
 
@@ -297,154 +180,71 @@ function buscarProduto(id) {
 }
 
 function nomeCategoria(produto) {
-  return CATEGORIAS[produto.categoria]?.singular ?? '';
+  return CATEGORIAS[produto.categoria]?.nome ?? '';
+}
+
+// Lista de cores do produto: [{ id, nome, hex, imagem }]
+function coresProduto(produto) {
+  return Object.entries(produto.cores).map(([id, arquivo]) => ({
+    id,
+    ...CORES[id],
+    imagem: `${PASTA_FOTOS}/${produto.pasta}/${arquivo}.jpeg`,
+  }));
+}
+
+// Cor escolhida, ou a padrão (primeira) se o id não existir no produto
+function corProduto(produto, corId) {
+  const cores = coresProduto(produto);
+  return cores.find((c) => c.id === corId) ?? cores[0];
+}
+
+function urlProduto(produto, corId) {
+  const cor = corId && corId !== corProduto(produto).id ? `&cor=${corId}` : '';
+  return `produto.html?id=${produto.id}${cor}`;
 }
 
 /* --------------------------------------------------------------------------
-   Mockups em SVG
-   Cada produto é desenhado com a sua cor e a frase da estampa.
+   Fotos
    -------------------------------------------------------------------------- */
 
-const SOMBRA = 'rgba(0,0,0,0.14)';
-
-// Escreve as linhas da estampa centralizadas em (cx, cy), cabendo em "largura".
-function textoEstampa(linhas, { cx, cy, largura, maxFonte, cor, italico = false, transform = '' }) {
-  const maiorLinha = Math.max(...linhas.map((l) => l.length));
-  const fonte = Math.min(maxFonte, largura / (maiorLinha * 0.56));
-  const entrelinha = fonte * 1.12;
-  const inicio = cy - ((linhas.length - 1) * entrelinha) / 2;
-
-  const tspans = linhas
-    .map((linha, i) => `<tspan x="${cx}" y="${(inicio + i * entrelinha).toFixed(1)}">${escaparHTML(linha)}</tspan>`)
-    .join('');
-
-  return `<text text-anchor="middle" dominant-baseline="middle" font-family="'Playfair Display', Georgia, serif"
-    font-weight="700" ${italico ? 'font-style="italic"' : ''} font-size="${fonte.toFixed(1)}" fill="${cor}"
-    ${transform ? `transform="${transform}"` : ''}>${tspans}</text>`;
+function fotoProduto(produto, corId, { classe = '', rotulo = true, prioridade = false } = {}) {
+  const cor = corProduto(produto, corId);
+  const alt = rotulo ? `Camiseta ${produto.nome}, de ${produto.tema}, na cor ${cor.nome.toLowerCase()}` : '';
+  return `<img src="${cor.imagem}" alt="${escaparHTML(alt)}" class="h-full w-full object-cover ${classe}"
+    ${prioridade ? '' : 'loading="lazy"'} decoding="async">`;
 }
 
-const DESENHOS = {
-  camiseta(p) {
-    const corpo = 'M150 88 L112 100 L58 142 L86 196 L118 180 L118 410 L282 410 L282 180 L314 196 L342 142 L288 100 L250 88 C240 114 160 114 150 88 Z';
-    return `
-      <path d="${corpo}" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M150 88 C160 114 240 114 250 88" fill="none" stroke="${SOMBRA}" stroke-width="6"/>
-      <path d="M118 180 C121 150 118 122 112 100 M282 180 C279 150 282 122 288 100" fill="none" stroke="${SOMBRA}" stroke-width="2"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 245, largura: 150, maxFonte: 30, cor: p.estampa.cor })}`;
-  },
-
-  cropped(p) {
-    const corpo = 'M156 92 L118 104 L72 140 L96 184 L126 170 L128 318 L272 318 L274 170 L304 184 L328 140 L282 104 L244 92 C235 116 165 116 156 92 Z';
-    return `
-      <path d="${corpo}" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M156 92 C165 116 235 116 244 92" fill="none" stroke="${SOMBRA}" stroke-width="6"/>
-      <path d="M126 170 C128 145 125 120 118 104 M274 170 C272 145 275 120 282 104" fill="none" stroke="${SOMBRA}" stroke-width="2"/>
-      <path d="M128 306 L272 306" stroke="${SOMBRA}" stroke-width="2"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 212, largura: 120, maxFonte: 26, cor: p.estampa.cor })}`;
-  },
-
-  moletom(p) {
-    const corpo = 'M148 100 L104 116 L74 180 L56 386 L96 392 L120 222 L120 412 L280 412 L280 222 L304 392 L344 386 L326 180 L296 116 L252 100 Z';
-    return `
-      <path d="${corpo}" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M148 100 C140 58 170 40 200 40 C230 40 260 58 252 100 C240 130 160 130 148 100 Z" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      <path d="M148 100 C140 58 170 40 200 40 C230 40 260 58 252 100 C240 130 160 130 148 100 Z" fill="${SOMBRA}"/>
-      <path d="M164 100 C172 76 228 76 236 100 C226 118 174 118 164 100 Z" fill="rgba(0,0,0,0.28)"/>
-      <path d="M190 120 L187 170 M210 120 L213 170" stroke="${p.estampa.cor}" stroke-width="3" stroke-linecap="round" opacity="0.8"/>
-      <path d="M150 322 L250 322 L268 374 L132 374 Z" fill="none" stroke="${SOMBRA}" stroke-width="2.5"/>
-      <rect x="120" y="398" width="160" height="14" fill="${SOMBRA}"/>
-      <path d="M56 372 L96 378 M344 372 L304 378" stroke="${SOMBRA}" stroke-width="10"/>
-      <path d="M120 222 C122 180 116 140 104 116 M280 222 C278 180 284 140 296 116" fill="none" stroke="${SOMBRA}" stroke-width="2"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 248, largura: 128, maxFonte: 28, cor: p.estampa.cor })}`;
-  },
-
-  bone(p) {
-    return `
-      <path d="M104 292 C104 190 150 150 200 150 C250 150 296 190 296 292 Z" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      <path d="M200 150 C166 180 156 236 154 292 M200 150 C234 180 244 236 246 292" fill="none" stroke="${SOMBRA}" stroke-width="2"/>
-      <path d="M92 290 C150 274 250 274 308 290 C302 334 98 334 92 290 Z" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      <path d="M92 290 C150 274 250 274 308 290 C302 334 98 334 92 290 Z" fill="${SOMBRA}"/>
-      <circle cx="200" cy="151" r="7" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 236, largura: 84, maxFonte: 22, cor: p.estampa.cor, italico: true })}`;
-  },
-
-  ecobag(p) {
-    return `
-      <path d="M156 182 C156 88 244 88 244 182" fill="none" stroke="${p.cor}" stroke-width="13"/>
-      <path d="M156 182 C156 88 244 88 244 182" fill="none" stroke="${SOMBRA}" stroke-width="13"/>
-      <path d="M112 176 L288 176 L298 414 L102 414 Z" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2" stroke-linejoin="round"/>
-      <path d="M113 192 L287 192" stroke="${SOMBRA}" stroke-width="2" stroke-dasharray="5 5"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 300, largura: 150, maxFonte: 34, cor: p.estampa.cor })}`;
-  },
-
-  caneca(p) {
-    return `
-      <path d="M274 212 C334 212 334 330 274 330" fill="none" stroke="${p.cor}" stroke-width="20"/>
-      <path d="M274 212 C334 212 334 330 274 330" fill="none" stroke="${SOMBRA}" stroke-width="20" opacity="0.5"/>
-      <path d="M118 180 L282 180 L282 382 C282 398 270 406 254 406 L146 406 C130 406 118 398 118 382 Z" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      <ellipse cx="200" cy="180" rx="82" ry="14" fill="${p.cor}" stroke="${SOMBRA}" stroke-width="2"/>
-      <ellipse cx="200" cy="181" rx="70" ry="9" fill="#3B2419"/>
-      <path d="M132 200 L132 380" stroke="rgba(0,0,0,0.05)" stroke-width="10" stroke-linecap="round"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 292, largura: 140, maxFonte: 26, cor: p.estampa.cor, italico: true })}`;
-  },
-
-  poster(p) {
-    return `
-      <path d="M200 52 L112 86 M200 52 L288 86" stroke="#5C5750" stroke-width="1.5"/>
-      <circle cx="200" cy="50" r="5" fill="#5C5750"/>
-      <rect x="104" y="84" width="192" height="262" fill="rgba(0,0,0,0.12)" transform="translate(6 8)"/>
-      <rect x="104" y="84" width="192" height="262" fill="#171717"/>
-      <rect x="114" y="94" width="172" height="242" fill="${p.cor}"/>
-      <line x1="134" y1="118" x2="266" y2="118" stroke="#8F1D2C" stroke-width="2"/>
-      ${textoEstampa(p.estampa.linhas, { cx: 200, cy: 212, largura: 140, maxFonte: 34, cor: p.estampa.cor })}
-      <text x="200" y="316" text-anchor="middle" font-family="Inter, sans-serif" font-size="8" letter-spacing="3" fill="#5C5750">ENTRELINHAS</text>`;
-  },
-
-  marcapagina(p) {
-    const marca = (cor, rot, texto, corTexto) => `
-      <g transform="rotate(${rot} 200 400)">
-        <rect x="168" y="80" width="64" height="300" rx="4" fill="${cor}" stroke="${SOMBRA}" stroke-width="2"/>
-        <circle cx="200" cy="104" r="6" fill="#EAE4D6" stroke="${SOMBRA}" stroke-width="1.5"/>
-        ${texto ? textoEstampa([texto], { cx: 200, cy: 250, largura: 220, maxFonte: 24, cor: corTexto, transform: 'rotate(-90 200 250)' }) : ''}
-      </g>`;
-    return `
-      ${marca('#171717', -16, 'Plot twist.', '#F5F2EA')}
-      ${marca('#8F1D2C', 14, 'Só mais um.', '#F5F2EA')}
-      ${marca(p.cor, 0, p.estampa.linhas[0], p.estampa.cor)}
-      <path d="M200 104 C216 70 186 54 204 24" fill="none" stroke="#8F1D2C" stroke-width="3" stroke-linecap="round"/>`;
-  },
-};
-
-function mockupSVG(produto, rotulo = true) {
-  const desenho = DESENHOS[produto.mockup] ?? DESENHOS.camiseta;
-  const acessivel = rotulo
-    ? `role="img" aria-label="${escaparHTML(`${nomeCategoria(produto)} ${produto.nome}, cor ${produto.corNome}`)}"`
-    : 'aria-hidden="true"';
-  return `<svg viewBox="0 0 400 460" xmlns="http://www.w3.org/2000/svg" ${acessivel}>
-    <ellipse cx="200" cy="436" rx="130" ry="10" fill="rgba(0,0,0,0.07)"/>
-    ${desenho(produto)}
-  </svg>`;
+function bolinhasCores(produto, tamanho = 'h-3 w-3') {
+  return coresProduto(produto)
+    .map((c) => `<span class="${tamanho} rounded-full border border-tinta/20" style="background:${c.hex}" title="${c.nome}"></span>`)
+    .join('');
 }
 
 /* --------------------------------------------------------------------------
    Card de produto (usado na home, no catálogo e nos relacionados)
+   Ao passar o mouse, mostra a peça na segunda cor.
    -------------------------------------------------------------------------- */
 
-function cardProduto(p) {
+function cardProduto(p, corId = '') {
+  const cores = coresProduto(p);
+  const principal = corProduto(p, corId);
+  const alternativa = cores.find((c) => c.id !== principal.id);
   const selo = p.novo
     ? '<span class="absolute left-3 top-3 bg-vinho px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-papel">Novo</span>'
     : '';
   return `
-    <a href="produto.html?id=${p.id}" class="group block">
-      <div class="mockup mockup-zoom relative aspect-[20/23] overflow-hidden bg-papel-escuro">
-        ${mockupSVG(p)}
+    <a href="${urlProduto(p, principal.id)}" class="group block">
+      <div class="foto-zoom relative aspect-[4/5] overflow-hidden bg-papel-escuro">
+        ${fotoProduto(p, principal.id)}
+        ${alternativa ? `<div class="foto-alternativa absolute inset-0">${fotoProduto(p, alternativa.id, { rotulo: false })}</div>` : ''}
         ${selo}
         <span class="absolute bottom-3 right-3 translate-y-2 bg-tinta px-3 py-1.5 text-[11px] font-medium uppercase tracking-widest text-papel opacity-0 transition group-hover:translate-y-0 group-hover:opacity-100">Ver peça</span>
       </div>
       <div class="mt-3 flex items-start justify-between gap-3">
         <div class="min-w-0">
-          <p class="text-[11px] uppercase tracking-[0.18em] text-grafite">${nomeCategoria(p)}</p>
+          <p class="text-[11px] uppercase tracking-[0.18em] text-grafite">${escaparHTML(p.tema)}</p>
           <h3 class="mt-0.5 font-serif text-lg leading-snug group-hover:text-vinho">${escaparHTML(p.nome)}</h3>
+          <div class="mt-2 flex items-center gap-1.5" aria-label="${cores.length} cores disponíveis">${bolinhasCores(p)}</div>
         </div>
         <p class="whitespace-nowrap pt-4 text-sm font-medium">${formatarPreco(p.preco)}</p>
       </div>
@@ -453,19 +253,18 @@ function cardProduto(p) {
 
 /* --------------------------------------------------------------------------
    Página de catálogo (produtos.html)
-   Filtros ficam na URL: ?categoria=&colecao=&busca=&ordem=
+   Filtros ficam na URL: ?categoria=&cor=&busca=&ordem=
    -------------------------------------------------------------------------- */
 
-function filtrarProdutos({ categoria = '', colecao = '', busca = '', ordem = '' }) {
+function filtrarProdutos({ categoria = '', cor = '', busca = '', ordem = '' }) {
   const termo = normalizar(busca);
 
   let lista = PRODUTOS.filter((p) => {
-    const cat = CATEGORIAS[p.categoria];
-    if (categoria && p.categoria !== categoria && cat.grupo !== categoria) return false;
-    if (colecao && p.colecao !== colecao) return false;
+    if (categoria && p.categoria !== categoria) return false;
+    if (cor && !p.cores[cor]) return false;
     if (termo) {
       const alvo = normalizar(
-        [p.nome, p.descricao, p.referencia ?? '', cat.nome, cat.singular, COLECOES[p.colecao].nome, p.estampa.linhas.join(' ')].join(' ')
+        [p.nome, p.tema, p.descricao, p.referencia ?? '', nomeCategoria(p), ...coresProduto(p).map((c) => c.nome)].join(' ')
       );
       if (!termo.split(/\s+/).every((palavra) => alvo.includes(palavra))) return false;
     }
@@ -494,27 +293,31 @@ function iniciarCatalogo() {
   const params = new URLSearchParams(location.search);
   const estado = {
     categoria: params.get('categoria') ?? '',
-    colecao: params.get('colecao') ?? '',
+    cor: params.get('cor') ?? '',
     busca: params.get('busca') ?? '',
     ordem: params.get('ordem') ?? '',
   };
 
-  // Monta os chips de categoria
-  const opcoesChips = [['', 'Todos'], ...Object.entries(CATEGORIAS).map(([slug, c]) => [slug, c.nome])];
+  // Monta os chips de categoria, com a quantidade de peças em cada uma
+  const opcoesChips = [
+    ['', 'Todos', PRODUTOS.length],
+    ...Object.entries(CATEGORIAS).map(([slug, c]) => [slug, c.nome, PRODUTOS.filter((p) => p.categoria === slug).length]),
+  ];
   chips.innerHTML = opcoesChips
-    .map(([slug, nome]) => `<button type="button" data-categoria="${slug}"
-      class="chip shrink-0 border px-4 py-2 text-sm transition">${nome}</button>`)
+    .map(([slug, nome, qtd]) => `<button type="button" data-categoria="${slug}"
+      class="chip shrink-0 border px-4 py-2 text-sm transition">${nome} <span class="ml-1 text-xs opacity-60">${qtd}</span></button>`)
     .join('');
 
-  // Monta o select de coleções
-  const selectColecao = form.elements.colecao;
-  selectColecao.insertAdjacentHTML(
+  // Monta o select de cores (só as cores que existem em algum produto)
+  const selectCor = form.elements.cor;
+  const coresUsadas = Object.entries(CORES).filter(([id]) => PRODUTOS.some((p) => p.cores[id]));
+  selectCor.insertAdjacentHTML(
     'beforeend',
-    Object.entries(COLECOES).map(([slug, c]) => `<option value="${slug}">${c.nome}</option>`).join('')
+    coresUsadas.map(([id, c]) => `<option value="${id}">${c.nome}</option>`).join('')
   );
 
   form.elements.busca.value = estado.busca;
-  selectColecao.value = estado.colecao;
+  selectCor.value = estado.cor;
   form.elements.ordem.value = estado.ordem;
 
   function atualizarURL() {
@@ -538,20 +341,19 @@ function iniciarCatalogo() {
     });
 
     // Título dinâmico
+    const categoria = CATEGORIAS[estado.categoria];
     if (estado.busca) {
       titulo.textContent = `Resultados para “${estado.busca}”`;
-    } else if (estado.colecao && COLECOES[estado.colecao]) {
-      titulo.textContent = COLECOES[estado.colecao].nome;
-    } else if (estado.categoria) {
-      titulo.textContent = CATEGORIAS[estado.categoria]?.nome ?? GRUPOS[estado.categoria]?.nome ?? 'Catálogo';
+    } else if (categoria) {
+      titulo.textContent = categoria.nome;
     } else {
       titulo.textContent = 'Toda a estante';
     }
-    subtitulo.textContent = COLECOES[estado.colecao]?.descricao
-      ?? 'Camisetas, moletons e acessórios para quem lê até o que não está escrito.';
+    subtitulo.textContent = categoria?.descricao
+      ?? 'Camisetas inspiradas na música, no cinema e na literatura que a gente carrega no peito.';
 
     contador.textContent = `${lista.length} ${lista.length === 1 ? 'título' : 'títulos'}`;
-    grade.innerHTML = lista.map(cardProduto).join('');
+    grade.innerHTML = lista.map((p) => cardProduto(p, estado.cor)).join('');
     vazio.hidden = lista.length > 0;
   }
 
@@ -571,8 +373,8 @@ function iniciarCatalogo() {
     render();
   });
 
-  selectColecao.addEventListener('change', (e) => {
-    estado.colecao = e.target.value;
+  selectCor.addEventListener('change', (e) => {
+    estado.cor = e.target.value;
     atualizarURL();
     render();
   });
@@ -594,7 +396,7 @@ function iniciarCatalogo() {
 }
 
 /* --------------------------------------------------------------------------
-   Página de produto (produto.html?id=...)
+   Página de produto (produto.html?id=...&cor=...)
    -------------------------------------------------------------------------- */
 
 const GUIA_MEDIDAS = `
@@ -606,11 +408,10 @@ const GUIA_MEDIDAS = `
         <tr><td class="py-2 pr-4">M</td><td class="py-2 pr-4">53 cm</td><td class="py-2">72 cm</td></tr>
         <tr><td class="py-2 pr-4">G</td><td class="py-2 pr-4">56 cm</td><td class="py-2">74 cm</td></tr>
         <tr><td class="py-2 pr-4">GG</td><td class="py-2 pr-4">59 cm</td><td class="py-2">76 cm</td></tr>
-        <tr><td class="py-2 pr-4">XG</td><td class="py-2 pr-4">62 cm</td><td class="py-2">78 cm</td></tr>
       </tbody>
     </table>
   </div>
-  <p class="mt-2 text-xs text-grafite">Medidas aproximadas da peça estendida. Croppeds têm cerca de 20 cm a menos de comprimento.</p>`;
+  <p class="mt-2 text-xs text-grafite">Medidas aproximadas da peça estendida.</p>`;
 
 function blocoDetalhes(titulo, conteudo, aberto = false) {
   return `
@@ -627,8 +428,8 @@ function iniciarPaginaProduto() {
   const alvo = document.getElementById('produto');
   if (!alvo) return;
 
-  const id = new URLSearchParams(location.search).get('id');
-  const p = buscarProduto(id);
+  const params = new URLSearchParams(location.search);
+  const p = buscarProduto(params.get('id'));
 
   if (!p) {
     alvo.innerHTML = `
@@ -643,19 +444,36 @@ function iniciarPaginaProduto() {
   }
 
   const categoria = CATEGORIAS[p.categoria];
-  const colecao = COLECOES[p.colecao];
-  const ehRoupa = categoria.grupo === 'roupas';
-  const unico = p.tamanhos.length === 1;
+  const cores = coresProduto(p);
+  let corAtual = corProduto(p, params.get('cor'));
 
-  document.title = `${p.nome} — ${categoria.singular} | Entrelinhas`;
+  document.title = `${p.nome} — ${p.tema} | Entrelinhas`;
   document.querySelector('meta[name="description"]')?.setAttribute('content', p.descricao);
 
   const botoesTamanho = p.tamanhos
     .map((t) => `
       <label class="cursor-pointer">
-        <input type="radio" name="tamanho" value="${t}" class="peer sr-only" ${unico ? 'checked' : ''}>
+        <input type="radio" name="tamanho" value="${t}" class="peer sr-only">
         <span class="flex h-11 min-w-11 items-center justify-center border border-linha px-3 text-sm transition peer-checked:border-tinta peer-checked:bg-tinta peer-checked:text-papel peer-focus-visible:ring-2 peer-focus-visible:ring-vinho hover:border-tinta">${t}</span>
       </label>`)
+    .join('');
+
+  const botoesCor = cores
+    .map((c) => `
+      <label class="cursor-pointer" title="${c.nome}">
+        <input type="radio" name="cor" value="${c.id}" class="peer sr-only" ${c.id === corAtual.id ? 'checked' : ''}>
+        <span class="block rounded-full border-2 border-transparent p-0.5 transition peer-checked:border-tinta peer-focus-visible:ring-2 peer-focus-visible:ring-vinho hover:border-grafite">
+          <span class="block h-8 w-8 rounded-full border border-tinta/20" style="background:${c.hex}"></span>
+        </span>
+        <span class="sr-only">${c.nome}</span>
+      </label>`)
+    .join('');
+
+  const miniaturas = cores
+    .map((c) => `
+      <button type="button" data-miniatura="${c.id}" class="aspect-[4/5] w-full overflow-hidden border-2 bg-papel-escuro transition" aria-label="Ver na cor ${c.nome.toLowerCase()}">
+        ${fotoProduto(p, c.id, { rotulo: false })}
+      </button>`)
     .join('');
 
   alvo.innerHTML = `
@@ -666,15 +484,18 @@ function iniciarPaginaProduto() {
     </nav>
 
     <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
-      <div class="mockup relative aspect-[20/23] bg-papel-escuro pauta-clara lg:sticky lg:top-28 lg:self-start">
-        ${mockupSVG(p)}
-        ${p.novo ? '<span class="absolute left-4 top-4 bg-vinho px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-papel">Novo</span>' : ''}
+      <div class="lg:sticky lg:top-28 lg:self-start">
+        <div id="foto-principal" class="relative aspect-[4/5] overflow-hidden bg-papel-escuro">
+          ${fotoProduto(p, corAtual.id, { prioridade: true })}
+          ${p.novo ? '<span class="absolute left-4 top-4 bg-vinho px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-papel">Novo</span>' : ''}
+        </div>
+        <div class="mt-3 grid grid-cols-4 gap-3">${miniaturas}</div>
       </div>
 
       <div>
-        <a href="produtos.html?colecao=${p.colecao}" class="text-xs font-medium uppercase tracking-[0.25em] text-vinho hover:underline">Coleção ${colecao.nome}</a>
+        <a href="produtos.html?categoria=${p.categoria}" class="text-xs font-medium uppercase tracking-[0.25em] text-vinho hover:underline">${categoria.nome} · ${escaparHTML(p.tema)}</a>
         <h1 class="mt-3 font-serif text-4xl leading-tight sm:text-5xl">${escaparHTML(p.nome)}</h1>
-        <p class="mt-2 text-sm text-grafite">${categoria.singular} · ${p.corNome}</p>
+        <p class="mt-2 text-sm text-grafite">Camiseta · <span id="cor-descricao">${corAtual.nome}</span></p>
 
         <p class="mt-6 text-2xl font-medium">${formatarPreco(p.preco)}</p>
         <p class="text-sm text-grafite">
@@ -687,9 +508,16 @@ function iniciarPaginaProduto() {
 
         <form id="form-produto" class="mt-8 space-y-6" novalidate>
           <fieldset>
+            <legend class="mb-3 text-sm font-medium uppercase tracking-widest">
+              Cor: <span id="cor-selecionada" class="normal-case tracking-normal text-grafite">${corAtual.nome}</span>
+            </legend>
+            <div class="flex flex-wrap gap-2">${botoesCor}</div>
+          </fieldset>
+
+          <fieldset>
             <legend class="mb-3 flex w-full items-center justify-between text-sm font-medium uppercase tracking-widest">
               Tamanho
-              ${ehRoupa ? '<a href="#guia-medidas" class="text-xs normal-case tracking-normal text-grafite underline hover:text-vinho">Guia de medidas</a>' : ''}
+              <a href="#guia-medidas" class="text-xs normal-case tracking-normal text-grafite underline hover:text-vinho">Guia de medidas</a>
             </legend>
             <div class="flex flex-wrap gap-2">${botoesTamanho}</div>
             <p id="erro-tamanho" class="mt-2 text-sm text-vinho" hidden>Escolha um tamanho antes de continuar.</p>
@@ -722,12 +550,36 @@ function iniciarPaginaProduto() {
         </ul>
 
         <div class="mt-8 border-t border-linha">
-          ${blocoDetalhes('Detalhes da peça', DETALHES[p.categoria], true)}
-          ${ehRoupa ? `<div id="guia-medidas">${blocoDetalhes('Guia de medidas', GUIA_MEDIDAS)}</div>` : ''}
+          ${blocoDetalhes('Detalhes da peça', DETALHES, true)}
+          <div id="guia-medidas">${blocoDetalhes('Guia de medidas', GUIA_MEDIDAS)}</div>
           ${blocoDetalhes('Cuidados', 'Lave do avesso, com água fria, e não passe ferro sobre a estampa. Livros e roupas duram mais quando são bem tratados.')}
         </div>
       </div>
     </div>`;
+
+  // Troca de cor: atualiza foto, miniaturas, textos e a URL
+  const form = document.getElementById('form-produto');
+  const fotoPrincipal = document.getElementById('foto-principal');
+
+  function selecionarCor(corId) {
+    corAtual = corProduto(p, corId);
+    fotoPrincipal.querySelector('img').outerHTML = fotoProduto(p, corAtual.id, { prioridade: true });
+    document.getElementById('cor-selecionada').textContent = corAtual.nome;
+    document.getElementById('cor-descricao').textContent = corAtual.nome;
+    form.querySelector(`[name="cor"][value="${corAtual.id}"]`).checked = true;
+    alvo.querySelectorAll('[data-miniatura]').forEach((botao) => {
+      const ativa = botao.dataset.miniatura === corAtual.id;
+      botao.classList.toggle('border-tinta', ativa);
+      botao.classList.toggle('border-transparent', !ativa);
+      botao.setAttribute('aria-pressed', ativa);
+    });
+    history.replaceState(null, '', urlProduto(p, corAtual.id));
+  }
+
+  alvo.querySelectorAll('[data-miniatura]').forEach((botao) =>
+    botao.addEventListener('click', () => selecionarCor(botao.dataset.miniatura))
+  );
+  selecionarCor(corAtual.id);
 
   // Controle de quantidade
   const inputQtd = document.getElementById('quantidade');
@@ -740,11 +592,11 @@ function iniciarPaginaProduto() {
   );
   inputQtd.addEventListener('change', () => (inputQtd.value = limitarQtd(inputQtd.value)));
 
-  // Seleção de tamanho
-  const form = document.getElementById('form-produto');
+  // Seleção de cor e tamanho
   const erroTamanho = document.getElementById('erro-tamanho');
   form.addEventListener('change', (e) => {
     if (e.target.name === 'tamanho') erroTamanho.hidden = true;
+    if (e.target.name === 'cor') selecionarCor(e.target.value);
   });
 
   function lerEscolha() {
@@ -754,29 +606,29 @@ function iniciarPaginaProduto() {
       form.querySelector('[name="tamanho"]').focus();
       return null;
     }
-    return { tamanho, quantidade: limitarQtd(inputQtd.value) };
+    return { tamanho, cor: corAtual.id, quantidade: limitarQtd(inputQtd.value) };
   }
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const escolha = lerEscolha();
     if (!escolha) return;
-    Carrinho.adicionar(p.id, escolha.tamanho, escolha.quantidade);
+    Carrinho.adicionar(p.id, escolha.tamanho, escolha.cor, escolha.quantidade);
     Carrinho.abrir();
   });
 
   document.getElementById('comprar-agora').addEventListener('click', () => {
     const escolha = lerEscolha();
     if (!escolha) return;
-    Carrinho.adicionar(p.id, escolha.tamanho, escolha.quantidade);
+    Carrinho.adicionar(p.id, escolha.tamanho, escolha.cor, escolha.quantidade);
     location.href = 'checkout.html';
   });
 
-  // Produtos relacionados: mesma coleção primeiro, depois o restante
+  // Produtos relacionados: mesma categoria primeiro, depois o restante
   const relacionados = [
-    ...PRODUTOS.filter((r) => r.id !== p.id && r.colecao === p.colecao),
-    ...PRODUTOS.filter((r) => r.id !== p.id && r.colecao !== p.colecao),
+    ...PRODUTOS.filter((r) => r.id !== p.id && r.categoria === p.categoria),
+    ...PRODUTOS.filter((r) => r.id !== p.id && r.categoria !== p.categoria),
   ].slice(0, 4);
 
-  document.getElementById('relacionados').innerHTML = relacionados.map(cardProduto).join('');
+  document.getElementById('relacionados').innerHTML = relacionados.map((r) => cardProduto(r)).join('');
 }

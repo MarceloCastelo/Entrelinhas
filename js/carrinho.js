@@ -8,15 +8,21 @@ const Carrinho = (() => {
   const CHAVE = 'entrelinhas:carrinho';
   const MAX_POR_ITEM = 20;
 
-  // Cada item salvo: { id, tamanho, quantidade }
+  // Cada item salvo: { id, tamanho, cor, quantidade }
   function ler() {
     try {
       const itens = JSON.parse(localStorage.getItem(CHAVE)) ?? [];
-      return Array.isArray(itens) ? itens.filter((i) => buscarProduto(i.id) && i.quantidade > 0) : [];
+      if (!Array.isArray(itens)) return [];
+      return itens
+        .filter((i) => buscarProduto(i.id) && i.quantidade > 0)
+        // Itens sem cor (ou com cor que não existe mais) ficam com a cor padrão do produto
+        .map((i) => ({ ...i, cor: corProduto(buscarProduto(i.id), i.cor).id }));
     } catch {
       return [];
     }
   }
+
+  const mesmoItem = (i, id, tamanho, cor) => i.id === id && i.tamanho === tamanho && i.cor === cor;
 
   function salvar(itens) {
     try {
@@ -28,28 +34,28 @@ const Carrinho = (() => {
     document.dispatchEvent(new CustomEvent('carrinho:atualizado'));
   }
 
-  function adicionar(id, tamanho, quantidade = 1) {
+  function adicionar(id, tamanho, cor, quantidade = 1) {
     const itens = ler();
-    const existente = itens.find((i) => i.id === id && i.tamanho === tamanho);
+    const existente = itens.find((i) => mesmoItem(i, id, tamanho, cor));
     if (existente) {
       existente.quantidade = Math.min(MAX_POR_ITEM, existente.quantidade + quantidade);
     } else {
-      itens.push({ id, tamanho, quantidade: Math.min(MAX_POR_ITEM, quantidade) });
+      itens.push({ id, tamanho, cor, quantidade: Math.min(MAX_POR_ITEM, quantidade) });
     }
     salvar(itens);
   }
 
-  function alterarQuantidade(id, tamanho, delta) {
+  function alterarQuantidade(id, tamanho, cor, delta) {
     const itens = ler()
-      .map((i) => (i.id === id && i.tamanho === tamanho
+      .map((i) => (mesmoItem(i, id, tamanho, cor)
         ? { ...i, quantidade: Math.min(MAX_POR_ITEM, i.quantidade + delta) }
         : i))
       .filter((i) => i.quantidade > 0);
     salvar(itens);
   }
 
-  function remover(id, tamanho) {
-    salvar(ler().filter((i) => !(i.id === id && i.tamanho === tamanho)));
+  function remover(id, tamanho, cor) {
+    salvar(ler().filter((i) => !mesmoItem(i, id, tamanho, cor)));
   }
 
   function limpar() {
@@ -73,16 +79,17 @@ const Carrinho = (() => {
      Interface (gaveta lateral montada pelo main.js)
      ---------------------------------------------------------------------- */
 
-  function htmlItem({ produto, tamanho, quantidade }) {
-    const dados = `data-id="${produto.id}" data-tamanho="${escaparHTML(tamanho)}"`;
+  function htmlItem({ produto, tamanho, cor, quantidade }) {
+    const dados = `data-id="${produto.id}" data-tamanho="${escaparHTML(tamanho)}" data-cor="${cor}"`;
+    const link = urlProduto(produto, cor);
     return `
       <li class="flex gap-4 py-5">
-        <a href="produto.html?id=${produto.id}" class="mockup block h-24 w-20 shrink-0 bg-papel-escuro">${mockupSVG(produto, false)}</a>
+        <a href="${link}" class="block h-24 w-20 shrink-0 overflow-hidden bg-papel-escuro">${fotoProduto(produto, cor, { rotulo: false })}</a>
         <div class="flex min-w-0 flex-1 flex-col">
           <div class="flex items-start justify-between gap-2">
             <div class="min-w-0">
-              <a href="produto.html?id=${produto.id}" class="font-serif leading-snug hover:text-vinho">${escaparHTML(produto.nome)}</a>
-              <p class="mt-0.5 text-xs text-grafite">${nomeCategoria(produto)} · Tam. ${escaparHTML(tamanho)}</p>
+              <a href="${link}" class="font-serif leading-snug hover:text-vinho">${escaparHTML(produto.nome)}</a>
+              <p class="mt-0.5 text-xs text-grafite">${corProduto(produto, cor).nome} · Tam. ${escaparHTML(tamanho)}</p>
             </div>
             <button type="button" data-acao="remover" ${dados} class="text-xs text-grafite underline hover:text-vinho">Remover</button>
           </div>
@@ -163,12 +170,12 @@ const Carrinho = (() => {
     gaveta.addEventListener('click', (e) => {
       const alvo = e.target.closest('[data-acao]');
       if (!alvo) return;
-      const { id, tamanho } = alvo.dataset;
+      const { id, tamanho, cor } = alvo.dataset;
 
       switch (alvo.dataset.acao) {
-        case 'aumentar': alterarQuantidade(id, tamanho, 1); break;
-        case 'diminuir': alterarQuantidade(id, tamanho, -1); break;
-        case 'remover': remover(id, tamanho); break;
+        case 'aumentar': alterarQuantidade(id, tamanho, cor, 1); break;
+        case 'diminuir': alterarQuantidade(id, tamanho, cor, -1); break;
+        case 'remover': remover(id, tamanho, cor); break;
         case 'limpar': limpar(); break;
         case 'fechar-carrinho': fecharGavetas(); break;
       }

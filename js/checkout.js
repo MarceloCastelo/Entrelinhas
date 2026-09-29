@@ -249,8 +249,8 @@ function criarPedido(form, itens, totais) {
     numero,
     criadoEm: agora.toISOString(),
     status: dados.metodo === 'cartao' ? 'pago' : 'aguardando',
-    itens: itens.map(({ produto, tamanho, quantidade }) => ({
-      id: produto.id, nome: produto.nome, tamanho, quantidade, preco: produto.preco,
+    itens: itens.map(({ produto, tamanho, cor, quantidade }) => ({
+      id: produto.id, nome: produto.nome, tamanho, cor, corNome: corProduto(produto, cor).nome, quantidade, preco: produto.preco,
     })),
     subtotal: totais.subtotal,
     frete: { nome: totais.opcao.nome, prazo: totais.opcao.prazo, valor: totais.frete },
@@ -339,12 +339,12 @@ function iniciarCheckout() {
     document.getElementById('painel-pix').hidden = metodo !== 'pix';
     document.getElementById('painel-boleto').hidden = metodo !== 'boleto';
 
-    resumoItens.innerHTML = itens.map(({ produto, tamanho, quantidade }) => `
+    resumoItens.innerHTML = itens.map(({ produto, tamanho, cor, quantidade }) => `
       <li class="flex items-center gap-3 py-3">
-        <span class="mockup block h-16 w-14 shrink-0 bg-papel-escuro">${mockupSVG(produto, false)}</span>
+        <span class="block h-16 w-14 shrink-0 overflow-hidden bg-papel-escuro">${fotoProduto(produto, cor, { rotulo: false })}</span>
         <span class="min-w-0 flex-1">
           <span class="block truncate font-serif">${escaparHTML(produto.nome)}</span>
-          <span class="text-xs text-grafite">Tam. ${escaparHTML(tamanho)} · ${quantidade}x</span>
+          <span class="text-xs text-grafite">${corProduto(produto, cor).nome} · Tam. ${escaparHTML(tamanho)} · ${quantidade}x</span>
         </span>
         <span class="text-sm">${formatarPreco(produto.preco * quantidade)}</span>
       </li>`).join('');
@@ -628,10 +628,10 @@ function iniciarPedido() {
                 const produto = buscarProduto(i.id);
                 return `
                   <li class="flex items-center gap-4 py-4">
-                    <span class="mockup block h-20 w-16 shrink-0 bg-papel-escuro">${produto ? mockupSVG(produto, false) : ''}</span>
+                    <span class="block h-20 w-16 shrink-0 overflow-hidden bg-papel-escuro">${produto ? fotoProduto(produto, i.cor, { rotulo: false }) : ''}</span>
                     <span class="min-w-0 flex-1">
                       <span class="block font-serif text-lg">${escaparHTML(i.nome)}</span>
-                      <span class="text-sm text-grafite">Tam. ${escaparHTML(i.tamanho)} · ${i.quantidade}x ${formatarPreco(i.preco)}</span>
+                      <span class="text-sm text-grafite">${i.corNome ? `${escaparHTML(i.corNome)} · ` : ''}Tam. ${escaparHTML(i.tamanho)} · ${i.quantidade}x ${formatarPreco(i.preco)}</span>
                     </span>
                     <span>${formatarPreco(i.preco * i.quantidade)}</span>
                   </li>`;

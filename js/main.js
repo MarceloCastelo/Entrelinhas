@@ -47,15 +47,15 @@ function listaLinks(itens) {
     .join('');
 }
 
-const LINKS_ROUPAS = Object.entries(CATEGORIAS)
-  .filter(([, c]) => c.grupo === 'roupas')
-  .map(([slug, c]) => [`produtos.html?categoria=${slug}`, c.nome]);
+const LINKS_CATEGORIAS = Object.entries(CATEGORIAS).map(([slug, c]) => [`produtos.html?categoria=${slug}`, c.nome]);
 
-const LINKS_ACESSORIOS = Object.entries(CATEGORIAS)
-  .filter(([, c]) => c.grupo === 'acessorios')
-  .map(([slug, c]) => [`produtos.html?categoria=${slug}`, c.nome]);
+// Links para as peças de uma categoria, pelo tema (artista, livro ou filme)
+function linksDaCategoria(slug) {
+  return PRODUTOS.filter((p) => p.categoria === slug).map((p) => [urlProduto(p), escaparHTML(p.tema)]);
+}
 
-const LINKS_COLECOES = Object.entries(COLECOES).map(([slug, c]) => [`produtos.html?colecao=${slug}`, c.nome]);
+// Peça em destaque no mega menu
+const DESTAQUE_MENU = 'acampamento-meio-sangue';
 
 function htmlCabecalho(pagina) {
   const ativo = (nome) => (pagina === nome ? 'text-vinho' : 'hover:text-vinho');
@@ -84,27 +84,18 @@ function htmlCabecalho(pagina) {
               </a>
               <div class="invisible absolute inset-x-0 top-full border-b border-linha bg-papel opacity-0 shadow-[0_24px_40px_-24px_rgba(0,0,0,0.25)] transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                 <div class="mx-auto grid max-w-site grid-cols-4 gap-8 px-6 py-10 normal-case tracking-normal">
-                  <div>
-                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em]">Roupas</p>
-                    <ul class="space-y-2.5">${listaLinks(LINKS_ROUPAS)}</ul>
-                    <a href="produtos.html?categoria=roupas" class="mt-5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest hover:text-vinho">Ver tudo ${ICONES.seta}</a>
-                  </div>
-                  <div>
-                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em]">Acessórios</p>
-                    <ul class="space-y-2.5">${listaLinks(LINKS_ACESSORIOS)}</ul>
-                    <a href="produtos.html?categoria=acessorios" class="mt-5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest hover:text-vinho">Ver tudo ${ICONES.seta}</a>
-                  </div>
-                  <div>
-                    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em]">Coleções</p>
-                    <ul class="space-y-2.5">${listaLinks(LINKS_COLECOES)}</ul>
-                    <a href="produtos.html?ordem=novidades" class="mt-5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest text-vinho hover:underline">Novidades ${ICONES.seta}</a>
-                  </div>
-                  <a href="produtos.html?colecao=classicos-brasileiros" class="group/card flex gap-4 bg-papel-escuro p-4">
-                    <div class="mockup w-28 shrink-0" data-mockup="ao-vencedor-as-batatas"></div>
+                  ${Object.entries(CATEGORIAS).map(([slug, c]) => `
+                    <div>
+                      <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em]">${c.nome}</p>
+                      <ul class="space-y-2.5">${listaLinks(linksDaCategoria(slug))}</ul>
+                      <a href="produtos.html?categoria=${slug}" class="mt-5 inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-widest hover:text-vinho">Ver tudo ${ICONES.seta}</a>
+                    </div>`).join('')}
+                  <a href="produtos.html?ordem=novidades" class="group/card flex gap-4 bg-papel-escuro p-4">
+                    <div class="aspect-[4/5] w-28 shrink-0 overflow-hidden" data-foto="${DESTAQUE_MENU}" data-foto-rotulo="nao"></div>
                     <div class="flex flex-col justify-center">
-                      <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-vinho">Coleção</p>
-                      <p class="mt-1 font-serif text-xl leading-tight">Clássicos brasileiros</p>
-                      <p class="mt-2 text-xs text-grafite">Machado, Mário e Drummond no guarda-roupa.</p>
+                      <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-vinho">Novidades</p>
+                      <p class="mt-1 font-serif text-xl leading-tight">Recém-chegadas na estante</p>
+                      <p class="mt-2 text-xs text-grafite">Do Tordo ao Acampamento Meio-Sangue, passando por Gal e Quintana.</p>
                     </div>
                   </a>
                 </div>
@@ -117,8 +108,7 @@ function htmlCabecalho(pagina) {
                 </div>
               </div>
             </li>
-            <li><a href="produtos.html?ordem=novidades" class="hover:text-vinho">Novidades</a></li>
-            <li><a href="produtos.html?colecao=classicos-brasileiros" class="hover:text-vinho">Clássicos BR</a></li>
+            ${LINKS_CATEGORIAS.map(([href, nome]) => `<li><a href="${href}" class="hover:text-vinho">${nome}</a></li>`).join('')}
             <li><a href="sobre.html" class="${ativo('sobre')}">Sobre</a></li>
             <li><a href="contato.html" class="${ativo('contato')}">Contato</a></li>
           </ul>
@@ -136,7 +126,7 @@ function htmlCabecalho(pagina) {
       <div id="painel-busca" hidden class="border-t border-linha bg-papel">
         <form action="produtos.html" method="get" role="search" class="mx-auto flex max-w-site items-center gap-3 px-4 py-4 sm:px-6">
           <span class="text-grafite">${ICONES.busca}</span>
-          <input type="search" name="busca" placeholder="Busque por título, autor ou frase… ex.: Machado, capítulo, moletom"
+          <input type="search" name="busca" placeholder="Busque por artista, livro, filme ou frase… ex.: Caetano, Machado, Harry"
             class="w-full bg-transparent py-2 font-serif text-lg placeholder:text-grafite/70 focus:outline-none" aria-label="Buscar produtos">
           <button type="submit" class="shrink-0 bg-tinta px-5 py-2 text-xs font-medium uppercase tracking-widest text-papel hover:bg-vinho">Buscar</button>
         </form>
@@ -161,9 +151,10 @@ function htmlGavetas() {
       </div>
       <nav class="flex-1 overflow-y-auto px-4 pb-8" aria-label="Menu mobile">
         <a href="produtos.html" class="block border-b border-linha py-4 font-serif text-2xl">Toda a estante</a>
-        ${secaoMobile('Roupas', LINKS_ROUPAS)}
-        ${secaoMobile('Acessórios', LINKS_ACESSORIOS)}
-        ${secaoMobile('Coleções', LINKS_COLECOES)}
+        ${Object.entries(CATEGORIAS).map(([slug, c]) => secaoMobile(c.nome, [
+          ...linksDaCategoria(slug),
+          [`produtos.html?categoria=${slug}`, `<strong class="font-medium text-tinta">Ver tudo de ${c.nome}</strong>`],
+        ])).join('')}
         <a href="produtos.html?ordem=novidades" class="block border-b border-linha py-4 font-serif text-2xl">Novidades</a>
         <a href="sobre.html" class="block border-b border-linha py-4 font-serif text-2xl">Sobre</a>
         <a href="contato.html" class="block border-b border-linha py-4 font-serif text-2xl">Contato</a>
@@ -203,15 +194,13 @@ function htmlRodape() {
           <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-papel/50">Loja</p>
           <ul class="space-y-2.5 text-sm text-papel/80">
             <li><a href="produtos.html" class="hover:text-papel">Toda a estante</a></li>
-            <li><a href="produtos.html?categoria=roupas" class="hover:text-papel">Roupas</a></li>
-            <li><a href="produtos.html?categoria=acessorios" class="hover:text-papel">Acessórios</a></li>
             <li><a href="produtos.html?ordem=novidades" class="hover:text-papel">Novidades</a></li>
           </ul>
         </div>
         <div>
-          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-papel/50">Coleções</p>
+          <p class="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-papel/50">Categorias</p>
           <ul class="space-y-2.5 text-sm text-papel/80">
-            ${LINKS_COLECOES.map(([href, nome]) => `<li><a href="${href}" class="hover:text-papel">${nome}</a></li>`).join('')}
+            ${LINKS_CATEGORIAS.map(([href, nome]) => `<li><a href="${href}" class="hover:text-papel">${nome}</a></li>`).join('')}
           </ul>
         </div>
         <div>
@@ -309,11 +298,12 @@ function fecharBusca() {
   }
 }
 
-// Qualquer elemento com data-mockup="id-do-produto" recebe o desenho do produto
-function preencherMockups() {
-  document.querySelectorAll('[data-mockup]').forEach((el) => {
-    const produto = buscarProduto(el.dataset.mockup);
-    if (produto) el.innerHTML = mockupSVG(produto, el.dataset.mockupRotulo !== 'nao');
+// Qualquer elemento com data-foto="id-do-produto" recebe a foto do produto.
+// Opcional: data-foto-cor="preta" escolhe a cor; data-foto-rotulo="nao" deixa a foto decorativa.
+function preencherFotos() {
+  document.querySelectorAll('[data-foto]').forEach((el) => {
+    const produto = buscarProduto(el.dataset.foto);
+    if (produto) el.insertAdjacentHTML('afterbegin', fotoProduto(produto, el.dataset.fotoCor, { rotulo: el.dataset.fotoRotulo !== 'nao' }));
   });
 }
 
@@ -324,12 +314,12 @@ function preencherMockups() {
 function iniciarHome() {
   const destaques = document.getElementById('destaques');
   if (destaques) {
-    destaques.innerHTML = PRODUTOS.filter((p) => p.destaque).slice(0, 4).map(cardProduto).join('');
+    destaques.innerHTML = PRODUTOS.filter((p) => p.destaque).slice(0, 4).map((p) => cardProduto(p)).join('');
   }
 
   const novidades = document.getElementById('novidades');
   if (novidades) {
-    novidades.innerHTML = PRODUTOS.filter((p) => p.novo).slice(0, 4).map(cardProduto).join('');
+    novidades.innerHTML = PRODUTOS.filter((p) => p.novo).slice(0, 4).map((p) => cardProduto(p)).join('');
   }
 
   iniciarEnquete();
@@ -444,7 +434,7 @@ function iniciarContato() {
 
 document.addEventListener('DOMContentLoaded', () => {
   montarLayout();
-  preencherMockups();
+  preencherFotos();
   Carrinho.iniciar();
 
   switch (document.body.dataset.pagina) {
